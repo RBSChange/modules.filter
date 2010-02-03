@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<localization>
+	<entity id="base-title">
+		<locale lang="fr">édition de la requête</locale>
+		<locale lang="en">query edition</locale>
+	</entity>
+
+	<entity id="remove-filter">
+		<locale lang="fr">supprimer</locale>
+		<locale lang="en">remove</locale>
+	</entity>
+
+	<entity id="add-filter">
+		<locale lang="fr">ajouter un filtre</locale>
+		<locale lang="en">add filter</locale>
+	</entity>
+
+	<entity id="validate-value">
+		<locale lang="fr">valider la valeur</locale>
+		<locale lang="en">validate value</locale>
+	</entity>
+
+	<entity id="undo-value">
+		<locale lang="fr">revenir à la valeur précédente</locale>
+		<locale lang="en">back to last value</locale>
+	</entity>
+</localization>

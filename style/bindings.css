@@ -1,0 +1,21 @@
+cfield[fieldtype="query"]{
+	-moz-binding: url(binding:modules.filter.cQueryField#cQueryField);
+}
+cfield[fieldtype="objectfilter"]{
+	-moz-binding: url(binding:modules.filter.cQueryField#cObjectFilterField);
+}
+cFilter{
+	-moz-binding: url(binding:modules.filter.cQueryField#cFilter);
+}
+cFilterParameter{
+	-moz-binding: url(binding:modules.filter.cQueryField#cFilterParameter);
+}
+cFilterParameterProperty{
+	-moz-binding: url(binding:modules.filter.cQueryField#cFilterParameterProperty);
+}
+cFilterParameterRestriction{
+	-moz-binding: url(binding:modules.filter.cQueryField#cFilterParameterRestriction);
+}
+cFilterParameterValue{
+	-moz-binding: url(binding:modules.filter.cQueryField#cFilterParameterValue);
+}

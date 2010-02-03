@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
+
+	<systemfolder module="list" relatedmodule="filter">
+		<staticlist listid="modules_filter/matchmodes"
+			description="&amp;modules.filter.list.match-modes-description;"
+			label="&amp;modules.filter.list.match-modes-label;">			
+			<staticitem value="start" label="&amp;modules.filter.list.match-mode-start;" />
+			<staticitem value="end" label="&amp;modules.filter.list.match-mode-end;" />
+			<staticitem value="anywhere" label="&amp;modules.filter.list.match-mode-anywhere;" />
+			<staticitem value="exact" label="&amp;modules.filter.list.match-mode-exact;" />
+		</staticlist>
+		
+		<staticlist listid="modules_filter/dateunits"
+			description="&amp;modules.filter.list.date-units-description;"
+			label="&amp;modules.filter.list.date-units-label;">			
+			<staticitem value="day" label="&amp;modules.filter.list.date-unit-day;" />
+			<staticitem value="week" label="&amp;modules.filter.list.date-unit-week;" />
+			<staticitem value="month" label="&amp;modules.filter.list.date-unit-month;" />
+			<staticitem value="year" label="&amp;modules.filter.list.date-unit-year;" />
+		</staticlist>
+		
+		<staticlist listid="modules_filter/datedirections"
+			description="&amp;modules.filter.list.date-directions-description;"
+			label="&amp;modules.filter.list.date-directions-label;">			
+			<staticitem value="last" label="&amp;modules.filter.list.date-direction-last;" />
+			<staticitem value="next" label="&amp;modules.filter.list.date-direction-next;" />
+		</staticlist>
+		
+		<staticlist listid="modules_filter/dateperiods"
+			description="&amp;modules.filter.list.date-periods-description;"
+			label="&amp;modules.filter.list.date-periods-label;">			
+			<staticitem value="today" label="&amp;modules.filter.list.date-period-today;" />
+			<staticitem value="tomorrow" label="&amp;modules.filter.list.date-period-tomorrow;" />
+			<staticitem value="yesterday" label="&amp;modules.filter.list.date-period-yesterday;" />
+			<staticitem value="thisweek" label="&amp;modules.filter.list.date-period-this-week;" />
+			<staticitem value="thismonth" label="&amp;modules.filter.list.date-period-this-month;" />
+			<staticitem value="thisyear" label="&amp;modules.filter.list.date-period-this-year;" />
+		</staticlist>
+	</systemfolder>
+</script>

@@ -1,0 +1,991 @@
+<?xml version="1.0" encoding="utf-8"?>
+<bindings xmlns="http://www.mozilla.org/xbl" 
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
+	xmlns:xbl="http://www.mozilla.org/xbl">
+	
+	<binding id="cQueryField" extends="form.cField#cAbstractField">
+		<resources>
+			<stylesheet src="modules.filter.cQueryField" />
+		</resources>
+		
+		<implementation>
+			<field name="mCurrentValue">""</field>
+	
+			<property name="value" >
+				<getter><![CDATA[
+					if (this.mCurrentValue === null)
+					{
+						var info = this.getInfos();
+						this.mCurrentValue = (info === null) ? "" : wCore.stringifyJSON(info);
+					}
+					return this.mCurrentValue;
+				]]></getter>
+				<setter><![CDATA[
+					this.mCurrentValue = null;
+					this.refreshInterface(this.fixString(val));
+					this.valueChanged();
+				]]></setter>
+			</property>
+			
+			<constructor><![CDATA[		
+				// Set filter list.
+				var me = this;
+				var callback = function(result) {me.onFilterLoaded(result);};
+				wCore.executeJSON('filter', 'GetDocumentFiltersByModel', {allow: this.getAttribute('allow'), fieldtype: this.getAttribute('fieldtype') }, callback, true);		
+			]]></constructor>
+ 
+      		<method name="onFilterLoaded">
+				<parameter name="result" />
+				<body><![CDATA[
+				try
+				{	
+					wCore.debug("cQueryField.onFilterLoaded");
+					if (result.status == 'OK')
+					{
+						var availableFilters = result.contents.filters;
+					 	
+					 	this.getElementByAnonId('sub-title').setAttribute('value', result.contents.subTitle);
+						var menupopup = window.document.createElement('menupopup');
+						
+						var menuitem = window.document.createElement('menuitem');			
+					 	menuitem.setAttribute('label', '&modules.filter.bo.general.select;');
+					 	menuitem.setAttribute('value', '');
+					 	menupopup.appendChild(menuitem);
+					 	
+					 	for each (var filter in availableFilters)
+					 	{
+					 		var menuitem = window.document.createElement('menuitem');			
+						 	menuitem.setAttribute('label', filter.label);
+						 	menuitem.setAttribute('value', filter.class);
+						 	menupopup.appendChild(menuitem);
+					 	}
+					 	
+					 	this.getElementByAnonId('default-menulist').appendChild(menupopup);
+					}
+				 	else
+				 	{
+				 		this.getElementByAnonId('sub-title').setAttribute('value', '&modules.filter.bo.general.Filters-load-error;');
+				 	
+				 	}
+				 	this.setInitialValue(this.initialvalue);
+				} 
+				catch (e)
+				{
+					wCore.error("cQueryField.onFilterLoaded", [result], e);
+				}			
+				]]></body>
+			</method>
+							     
+      		<method name="setInitialValue">
+				<parameter name="val" />
+				<body><![CDATA[
+					var fval = this.fixString(val);
+					this.setAttribute("initialvalue", fval);
+					this.mCurrentValue = fval;
+					if (this.modified)
+					{
+						this.removeAttribute("modified");
+						this.dispatchFieldEvent('fieldRestored');						
+					}
+					
+					var errorMessage = this.checkRequired(fval);
+					this.setValidity(errorMessage);
+					
+					// Import existing filters.
+					this.refreshInterface(fval);
+				]]></body>
+			</method>
+			
+			<method name="reset">
+				<body><![CDATA[
+					if (this.value != this.initialvalue)
+					{
+						this.setInitialValue(this.initialvalue);
+						this.valueChanged();
+					}
+				]]></body>
+			</method>
+			
+			<method name="focus">
+				<body><![CDATA[
+					this.getElementByAnonId('add-filter').focus();
+				]]></body>
+			</method>
+			
+			<method name="checkIsModified">
+				<body><![CDATA[
+				wCore.debug('initial: '+this.initialvalue+', current: '+this.value);
+					return this.initialvalue != this.value;
+				]]></body>
+			</method>
+			
+			<method name="onAdd">
+				<body><![CDATA[
+					_this = this;					
+					var menuList = this.getElementByAnonId('default-menulist').cloneNode(true);
+					menuList.removeAttribute('anonid');
+					menuList.addEventListener('command', function () { _this.onSelectFilter(menuList); }, true);
+					this.appendFilter(menuList);
+				]]></body>
+			</method>
+			
+			<method name="onSelectFilter">
+				<parameter name="node" />
+				<body><![CDATA[
+					var filter = node.selectedItem.value;
+					if (filter != '')
+					{
+						var result = wCore.executeJSON('filter', 'GetDocumentFilterInfo', { filter: filter }, null);
+						var filterInfo = result['contents'];
+					 	
+						var doc = new DOMParser().parseFromString('<cFilter name="' + filter + '">' + filterInfo.textWithMarkers + '</cFilter>', 'text/xml');
+						node.parentNode.replaceChild(doc.documentElement, node);
+						this.valueChanged();
+					}
+				]]></body>
+			</method>
+			
+			<method name="onRemove">
+				<parameter name="node" />
+				<body><![CDATA[
+					node.parentNode.removeChild(node);
+					this.valueChanged();
+				]]></body>
+			</method>
+			
+			<method name="refreshInterface">
+				<parameter name="json" />
+				<body><![CDATA[
+					var filtersBox = this.getElementByAnonId('filters-box');
+					
+					// Clear old filters.
+					while (filtersBox.firstChild)
+					{
+						filtersBox.removeChild(filtersBox.firstChild);
+					}
+					
+					// Set new filters.
+					if (json.length > 0)
+					{
+						var result = wCore.executeJSON('filter', 'GetDocumentQueryInfo', { infoAsJson: json }, null, true);
+						var filtersInfo = result['contents'];
+						for each (filterInfo in filtersInfo)
+						{
+							var doc = new DOMParser().parseFromString('<cFilter name="' + filterInfo.class + '">' + filterInfo.textWithMarkers + '</cFilter>', 'text/xml');
+							this.appendFilter(doc.documentElement);
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="getInfos">
+				<body><![CDATA[
+					//wCore.debug('cQueryField.getInfos');
+					var nodes = this.getElementByAnonId('filters-box').getElementsByTagName('cFilter');
+					if (nodes.length == 0)
+					{
+						return null;
+					}
+					
+					var infos = [];
+					for (var i = 0; i < nodes.length; i++)
+					{
+						var node = nodes[i];
+						infos.push(node.getInfos());
+					}					
+					return infos;
+				]]></body>
+			</method>
+			
+			<method name="appendFilter">
+				<parameter name="node" />
+				<body><![CDATA[
+					var _this = this;
+					var newBox = document.createElement('hbox');				 	
+					newBox.appendChild(node);
+					
+					var spacer = document.createElement('spacer');
+					spacer.setAttribute('style', 'width: 10px');
+					newBox.appendChild(spacer);
+					
+					var button = document.createElement('toolbarbutton');
+					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('height', '16');
+					button.setAttribute('label', "&amp;modules.filter.bo.dialog.Remove-filter;");
+					button.addEventListener('command', function () { _this.onRemove(this.parentNode); }, true);
+					newBox.appendChild(button);
+					
+					this.getElementByAnonId('filters-box').appendChild(newBox);
+				]]></body>
+			</method>
+
+			<method name="valueChanged">
+				<body><![CDATA[
+					this.mCurrentValue = null;
+					
+					var errorMessage = this.checkValidity(this.value);
+					if (this.mErrorMessage !== errorMessage)
+					{
+						this.setValidity(errorMessage);
+					}
+					
+					this.dispatchFieldEvent('fieldChanged');
+					if (this.checkIsModified())
+					{
+						if (!this.modified) 
+						{
+							this.setAttribute("modified", "true");
+							this.dispatchFieldEvent('fieldModified');
+						}
+					}
+					else
+					{
+						if (this.modified) 
+						{
+							this.removeAttribute("modified");
+							this.dispatchFieldEvent('fieldRestored');
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="checkValidity">
+				<parameter name="val" />
+				<body><![CDATA[
+					if (this.disabled) {return null;}
+					var errorMessage = null;
+					if ((errorMessage = this.checkRequired(val)) !== null) {return errorMessage;}
+					
+					var nodes = this.getElementByAnonId('filters-box').getElementsByTagName('cFilter');
+					if (nodes.length == 0)
+					{
+						return null;
+					}
+					
+					for (var i = 0; i < nodes.length; i++)
+					{
+						var node = nodes[i];
+						if (!node.isValid())
+						{
+							return "&modules.filter.bo.general.Error-must-set-all-parameters;";
+						}
+					}
+					return null;
+				]]></body>
+			</method>
+		</implementation>
+		
+		<handlers>
+			<handler event="focus" phase="capturing"><![CDATA[
+				if (this.hasAttribute("focused")) {return;}
+				this.setAttribute("focused", "true");
+				this.dispatchFieldEvent('fieldFocus');
+			]]></handler>
+
+			<handler event="blur" phase="capturing"><![CDATA[
+				if (!this.hasAttribute("focused")) {return;}
+				this.removeAttribute('focused');
+				this.dispatchFieldEvent('fieldBlur');
+			]]></handler>
+
+			<handler event="parameterChanged" phase="capturing"><![CDATA[
+				this.valueChanged();
+			]]></handler>
+		</handlers>
+		
+		<xbl:content
+			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			xmlns:html="http://www.w3.org/1999/xhtml"
+			xmlns:xbl="http://www.mozilla.org/xbl">
+			<vbox flex="1">
+				<vbox>
+					<label anonid="sub-title" />
+					<vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 15px" anonid="filters-box" />
+					<hbox anonid="default-line" style="display: none;">
+						<menulist anonid="default-menulist"></menulist>
+					</hbox>
+					<toolbar>
+						<toolbarbutton anonid="add-filter" image="{HttpHost}/icons/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
+						<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
+					</toolbar>
+				</vbox>
+			</vbox>
+		</xbl:content>
+	</binding>
+	
+	<binding id="cObjectFilterField" extends="modules.filter.cQueryField#cQueryField" />
+	
+	<binding id="cFilter">
+		<implementation>
+			<property name="name" readonly="true">
+				<getter><![CDATA[
+					return this.getAttribute('name');
+				]]></getter>
+			</property>
+						
+			<constructor><![CDATA[
+				//wCore.debug("cFilter.constructor");
+			]]></constructor>
+			
+			<method name="getInfos">
+				<body><![CDATA[
+					//wCore.debug("cFilter.getInfos");
+					var info = {};
+					info.class = this.name; 
+					info.parameters = {};
+					var nodes = this.getElementsByTagName('cFilterParameter');
+					for (var i = 0 ; i < nodes.length ; i++)
+					{
+						var node = nodes[i];
+						info.parameters[node.name] = [node.property, node.restriction, node.value];
+					}
+					return info;	
+				]]></body>
+			</method>
+			
+			<method name="isValid">
+				<body><![CDATA[
+					//wCore.debug("cFilter.isValid");
+					var nodes = this.getElementsByTagName('cFilterParameter');
+					for (var i = 0 ; i < nodes.length ; i++)
+					{
+						var node = nodes[i];
+						if (!node.isValid())
+						{
+							return false;
+						}
+					}
+					return true;	
+				]]></body>
+			</method>
+		</implementation>
+		
+		<xbl:content
+			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			xmlns:html="http://www.w3.org/1999/xhtml"
+			xmlns:xbl="http://www.mozilla.org/xbl">
+			<children />
+		</xbl:content>
+	</binding>
+	
+	<binding id="cFilterParameter">
+		<implementation>
+			<field name="elementsValidity" />
+		
+			<property name="filter" readonly="true">
+				<getter><![CDATA[
+					return this.getAttribute('filter');
+				]]></getter>
+			</property>
+			
+			<property name="name" readonly="true">
+				<getter><![CDATA[
+					return this.getAttribute('name');
+				]]></getter>
+			</property>
+			
+			<property name="property">
+				<getter><![CDATA[
+					if (this.hasAttribute('property'))
+					{
+						return this.getAttribute('property');
+					}
+					return null;
+				]]></getter>
+				<setter><![CDATA[
+					this.setAttribute('property', val);
+					var nodes = this.getElementsByTagName('cFilterParameterRestriction');
+					if (nodes.length);
+					{
+						nodes[0].reset();
+					}
+					this.restriction = null;
+					var nodes = this.getElementsByTagName('cFilterParameterValue');
+					if (nodes.length);
+					{
+						nodes[0].reset();
+					}
+					this.value = null;
+				]]></setter>
+			</property>
+			
+			<property name="restriction">
+				<getter><![CDATA[
+					if (this.hasAttribute('restriction'))
+					{
+						return this.getAttribute('restriction');
+					}
+					return null;
+				]]></getter>
+				<setter><![CDATA[
+					this.setAttribute('restriction', val);
+				]]></setter>
+			</property>
+			
+			<property name="value">
+				<getter><![CDATA[
+					if (this.hasAttribute('value'))
+					{
+						return this.getAttribute('value');
+					}
+					return null;
+				]]></getter>
+				<setter><![CDATA[
+					this.setAttribute('value', val);
+				]]></setter>
+			</property>
+						
+			<constructor><![CDATA[
+				this.elementsValidity = {property: true, restriction: true, value: true};
+				//wCore.debug("cFilterParameter.constructor");
+			]]></constructor>
+			
+			<method name="hasProperty">
+				<body><![CDATA[
+					return this.hasAttribute('property');					
+				]]></body>
+			</method>
+			
+			<method name="hasRestriction">
+				<body><![CDATA[
+					return this.hasAttribute('restriction');					
+				]]></body>
+			</method>
+			
+			<method name="hasValue">
+				<body><![CDATA[
+					return this.hasAttribute('value');					
+				]]></body>
+			</method>
+			
+			<method name="setElementValidity">
+				<parameter name="elementType" />
+				<parameter name="validity" />
+				<body><![CDATA[
+					this.elementsValidity[elementType] = validity;
+				]]></body>
+			</method>
+			
+			<method name="isValid">
+				<body><![CDATA[
+					return (this.elementsValidity['property'] && this.elementsValidity['restriction'] && this.elementsValidity['value']);
+				]]></body>
+			</method>			
+		</implementation>
+		
+		<xbl:content
+			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			xmlns:html="http://www.w3.org/1999/xhtml"
+			xmlns:xbl="http://www.mozilla.org/xbl">
+			<children />
+		</xbl:content>
+	</binding>
+	
+	<binding id="cFilterParameterElement">
+		<implementation>
+			<field name="editMode">false</field>
+			<field name="fieldLoaded">false</field>
+			<field name="valueLoaded">false</field>
+			<field name="parameterNode" />
+			<field name="elementType" />
+			
+			<method name="getElementByAnonId">
+				<parameter name="id"/>
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, "anonid", id);
+				]]></body>
+			</method>			
+			
+			
+			<property name="value">
+				<getter><![CDATA[
+					return this.fieldLoaded ? this.getElementByAnonId('field').value : '';
+				]]></getter>
+				<setter><![CDATA[
+					if (this.fieldLoaded)
+					{
+						this.getElementByAnonId('field').value = val;
+					}
+				]]></setter>
+			</property>
+			
+			<constructor><![CDATA[
+				try
+				{
+					// Find the filterParameter.
+					var parent = this;
+					while (parent && this.parameterNode == null)
+					{
+						if (parent.tagName && parent.tagName == 'cFilterParameter')
+						{
+							this.parameterNode = parent;
+						}
+						parent = parent.parentNode;
+					}
+					//wCore.debug("cFilterParameterElement.constructor");
+				} 
+				catch (e)
+				{
+					wCore.error("cFilterParameterElement.constructor", [], e);
+				}
+			]]></constructor>
+						
+			<method name="switchToField">
+				<body><![CDATA[
+					//wCore.debug("cFilterParameterElement.switchToField");
+					this.editMode = true;
+					if (!this.fieldLoaded)
+					{
+						this.loadField();
+					}
+					this.getElementByAnonId('text-zone').setAttribute('style', 'display: none');
+					this.getElementByAnonId('field-zone').removeAttribute('style');					
+				]]></body>
+			</method>
+			
+			<method name="switchToText">
+				<parameter name="setValue" />
+				<body><![CDATA[
+					//wCore.debug("cFilterParameterElement.switchToText");
+					this.editMode = false;
+					if (setValue)
+					{
+						this.updateText();
+						this.setValueInParameter();
+						this.validate();
+												
+						// Dispatch a "parameterChanged" event.
+						var evt = document.createEvent('Event');
+						evt.initEvent('parameterChanged', true, true);
+						this.dispatchEvent(evt);
+					}
+					else
+					{
+						this.getElementByAnonId('field').value = this.getValueFromParameter();
+					}
+					this.getElementByAnonId('text-zone').removeAttribute('style');
+					this.getElementByAnonId('field-zone').setAttribute('style', 'display: none');
+				]]></body>
+			</method>
+			
+			<method name="loadField">
+				<body><![CDATA[
+					//wCore.debug("cFilterParameterElement.loadField");
+					this.fieldLoaded = true;
+					this.doLoadField();
+				]]></body>
+			</method>
+			
+			<method name="doLoadField">
+				<body><![CDATA[
+					// Overload it in final classes.
+				]]></body>
+			</method>
+				
+			<method name="setValueInParameter">
+				<body><![CDATA[
+					// Overload it in final classes.
+				]]></body>
+			</method>
+			
+			<method name="getValueFromParameter">
+				<body><![CDATA[
+					// Overload it in final classes.
+				]]></body>
+			</method>
+			
+			<method name="reset">
+				<body><![CDATA[
+					if (this.fieldLoaded)
+					{
+						var field = this.getElementByAnonId('field');
+						field.parentNode.removeChild(field);
+						this.fieldLoaded = false;
+					}
+					this.switchToText(true);					
+				]]></body>
+			</method>
+			
+			<method name="updateText">
+				<body><![CDATA[
+					if (this.fieldLoaded && this.getElementByAnonId('field').value)
+					{
+						this.getElementByAnonId('text').value = this.getValueLabel();
+						//wCore.debug('valueLabel = '+this.getValueLabel());
+					}
+					else
+					{
+						this.getElementByAnonId('text').value = '...';
+					}
+				]]></body>
+			</method>
+
+			<method name="loadValue">
+				<parameter name="value" />
+				<body><![CDATA[
+					var field = this.getElementByAnonId('field');
+					var _this = this;
+					wCore.executeOnMethodExists(field, 'setInitialValue', function ()
+						{
+							field.setInitialValue(value);
+							_this.updateText(); 
+							_this.valueLoaded = true;
+						}
+					);
+				]]></body>
+			</method>
+
+			<method name="validate">
+				<body><![CDATA[
+					if (!this.isValid())
+					{
+						this.setAttribute('invalid', 'true');
+						this.parameterNode.setElementValidity(this.elementType, false);
+					}
+					else
+					{
+						this.removeAttribute('invalid');
+						this.parameterNode.setElementValidity(this.elementType, true);
+					}
+				]]></body>
+			</method>
+			
+			<method name="isValid">
+				<body><![CDATA[
+					var value = this.getValueFromParameter();
+					return ((value !== null) && (value !== ''));
+				]]></body>
+			</method>
+		</implementation>
+		
+		<handlers>
+			<handler event="click" phase="capturing"><![CDATA[
+				//wCore.debug('click: '+event.originalTarget.tagName);
+				if (!this.editMode)
+				{
+					//wCore.debug('click and editmode');
+					this.switchToField();
+				}
+			]]></handler>
+			
+			<handler event="fieldChanged" phase="capturing"><![CDATA[
+				// The query filed is change only when a parameter validation 
+				// is validated and not when the sub-field is changed.
+				event.stopPropagation();
+			]]></handler>
+		</handlers>
+		
+		<xbl:content
+			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			xmlns:html="http://www.w3.org/1999/xhtml"
+			xmlns:xbl="http://www.mozilla.org/xbl">
+			<hbox class="inline">
+				<hbox class="inline" anonid="text-zone">
+					<label class="inline" anonid="text"><xbl:children/></label>
+				</hbox>
+				<hbox class="inline" anonid="field-zone" style="display: none">
+					<toolbarbutton class="inline" anonid="validation-button" height="16" image="{HttpHost}/icons/small/check.png" tooltiptext="&amp;modules.filter.bo.dialog.Validate-value;" oncommand="switchToText(true);" />
+					<toolbarbutton class="inline" anonid="undo-button" height="16" image="{HttpHost}/icons/small/undo.png" tooltiptext="&amp;modules.filter.bo.dialog.Undo-value;" oncommand="switchToText(false);" />
+				</hbox>
+			</hbox>
+		</xbl:content>
+	</binding>
+	
+	<binding id="cFilterParameterProperty" extends="modules.filter.cQueryField#cFilterParameterElement">
+		<implementation>
+			<constructor><![CDATA[
+				try
+				{
+					this.elementType = 'property';
+					if (!this.parameterNode.hasProperty())
+					{
+						this.valueLoaded = true;
+					}
+					this.validate();
+					//wCore.debug("cFilterParameterProperty.constructor");
+				} 
+				catch (e)
+				{
+					wCore.error("cFilterParameterProperty.constructor", [], e);
+				}
+			]]></constructor>
+			
+			<method name="doLoadField">
+				<body><![CDATA[
+					//wCore.debug("cFilterParameterProperty.doLoadField");
+					var list = document.createElement('cfield');
+					list.setAttribute('fieldtype', 'dropdownlist');
+					list.setAttribute('hidehelp', true);
+					list.setAttribute('anonid', 'field');
+					list.setAttribute('emptylabel', '...');
+					
+					var parameterName = this.parameterNode.name;
+					var filterName = this.parameterNode.filter;
+					
+					var result = wCore.executeJSON('filter', 'GetAvailablePropetiesForFilter', { filter: filterName, parameterName: parameterName }, null);
+					var availableProperties = result['contents']['availableProperties'];
+					for (var name in availableProperties)
+					{
+						var item = document.createElement('clistitem');
+						item.setAttribute('label', availableProperties[name]); 
+						item.setAttribute('value', name); 
+						list.appendChild(item);
+					}
+					 	
+					var button = this.getElementByAnonId('validation-button');
+					button.parentNode.insertBefore(list, button);
+					button.setAttribute('style', 'display: none;');
+					
+					if (!this.valueLoaded)
+					{
+						this.loadValue(this.parameterNode.property);
+					}
+				]]></body>
+			</method>
+			
+			<method name="setValueInParameter">
+				<body><![CDATA[
+					this.parameterNode.property = this.value;
+				]]></body>
+			</method>
+			
+			<method name="getValueFromParameter">
+				<body><![CDATA[
+					return this.parameterNode.property;
+				]]></body>
+			</method>
+			
+			<method name="getValueLabel">
+				<body><![CDATA[
+					var field = this.getElementByAnonId('field');
+					return field.getLabelByValue(field.value);
+				]]></body>
+			</method>
+		</implementation>
+		
+		<handlers>
+			<handler event="fieldChanged" phase="capturing"><![CDATA[
+				if (this.valueLoaded == true)
+				{
+					this.switchToText(true);
+				}
+			]]></handler>
+		</handlers>
+	</binding>
+	
+	<binding id="cFilterParameterRestriction" extends="modules.filter.cQueryField#cFilterParameterElement">
+		<implementation>
+			<constructor><![CDATA[
+				try
+				{
+					this.elementType = 'restriction';
+					if (!this.parameterNode.hasRestriction())
+					{
+						this.valueLoaded = true;
+					}
+					this.validate();
+					//wCore.debug("cFilterParameterRestriction.constructor");
+				} 
+				catch (e)
+				{
+					wCore.error("cFilterParameterRestriction.constructor", [], e);
+				}
+			]]></constructor>
+			
+			<method name="doLoadField">
+				<body><![CDATA[
+					//wCore.debug("cFilterParameterRestriction.doLoadField");
+					var list = document.createElement('cfield');
+					list.setAttribute('fieldtype', 'dropdownlist');
+					list.setAttribute('hidehelp', true);
+					list.setAttribute('anonid', 'field');
+					list.setAttribute('emptylabel', '...');
+					
+					var parameterName = this.parameterNode.name;
+					var filterName = this.parameterNode.filter;
+					var propertyName = this.parameterNode.property;
+					
+					var result = wCore.executeJSON('filter', 'GetAvailableRestrictionsForFilter', { filter: filterName, parameterName: parameterName, propertyName: propertyName }, null);
+					var availableRestrictions = result['contents']['availableRestrictions'];
+					for (var name in availableRestrictions)
+					{
+						var item = document.createElement('clistitem');
+						item.setAttribute('label', availableRestrictions[name]); 
+						item.setAttribute('value', name); 
+						list.appendChild(item);
+					}
+					 	
+					var button = this.getElementByAnonId('validation-button');
+					button.parentNode.insertBefore(list, button);
+					button.setAttribute('style', 'display: none;');
+					
+					if (!this.valueLoaded)
+					{
+						this.loadValue(this.parameterNode.restriction);
+					}
+				]]></body>
+			</method>
+			
+			<method name="setValueInParameter">
+				<body><![CDATA[
+					this.parameterNode.restriction = this.value;
+				]]></body>
+			</method>
+			
+			<method name="getValueFromParameter">
+				<body><![CDATA[
+					return this.parameterNode.restriction;
+				]]></body>
+			</method>
+			
+			<method name="getValueLabel">
+				<body><![CDATA[
+					var field = this.getElementByAnonId('field');
+					return field.getLabelByValue(field.value);
+				]]></body>
+			</method>
+		</implementation>
+		
+		<handlers>
+			<handler event="fieldChanged" phase="capturing"><![CDATA[
+				if (this.valueLoaded == true)
+				{
+					this.switchToText(true);
+				}
+			]]></handler>
+		</handlers>
+	</binding>
+	
+	<binding id="cFilterParameterValue" extends="modules.filter.cQueryField#cFilterParameterElement">
+		<implementation>
+			<field name="propertyInfo" />
+			
+			<constructor><![CDATA[
+				this.elementType = 'value';
+				this.validate();
+				//wCore.debug("cFilterParameterValue.constructor");
+			]]></constructor>
+			
+			<method name="doLoadField">
+				<body><![CDATA[
+					//wCore.debug("cFilterParameterValue.doLoadField");
+					var parameterName = this.parameterNode.name;
+					var filterName = this.parameterNode.filter;
+					var propertyName = this.parameterNode.property;
+					
+					var result = wCore.executeJSON('filter', 'GetPropertyInfoForFilter', { filter: filterName, parameterName: parameterName, propertyName: propertyName }, null);
+					var propertyInfo = result['contents']['propertyInfo'];
+					this.propertyInfo = propertyInfo;
+					
+					var field = document.createElement('cfield');
+					if (propertyInfo['hasList'])
+					{
+						field.setAttribute('fieldtype', 'dropdownlist');
+						field.setAttribute('emptylabel', '...');
+						field.setAttribute('listid', propertyInfo['listId']);
+					}
+					else
+					{
+						switch (propertyInfo['type'])
+						{
+							case 'Boolean' :
+								field.setAttribute('fieldtype', 'boolean');
+								break;
+								
+							case 'Integer' :
+								field.setAttribute('fieldtype', 'integer');
+								break;
+								
+							case 'Double' :
+								field.setAttribute('fieldtype', 'double');
+								break;
+								
+							case 'String' :
+							case 'LongString' :
+							case 'XHTMLFragment' :
+								field.setAttribute('fieldtype', 'text');
+								break;
+								
+							case 'DateTime' :
+								field.setAttribute('fieldtype', 'datetime');
+								field.setAttribute('hidetime', 'true');
+								break;
+							
+							case 'Document' :
+								field.setAttribute('fieldtype', 'documentarray');
+								field.setAttribute('allow', propertyInfo['allow']);
+								field.setAttribute('moduleselector', propertyInfo['moduleselector']);
+								break;
+						}
+					}
+					if (propertyInfo['hasDefaultValue'])
+					{
+						field.setAttribute('initialvalue', propertyInfo['defaultValue']);
+					}
+					field.setAttribute('hidehelp', true);
+					field.setAttribute('anonid', 'field');
+							 	
+					var button = this.getElementByAnonId('validation-button');
+					button.parentNode.insertBefore(field, button);
+					
+					if (!this.valueLoaded)
+					{
+						this.loadValue(this.parameterNode.value);
+					}
+				]]></body>
+			</method>
+			
+			<method name="setValueInParameter">
+				<body><![CDATA[
+					this.parameterNode.value = this.value;
+				]]></body>
+			</method>
+			
+			<method name="getValueFromParameter">
+				<body><![CDATA[
+					return this.parameterNode.value;
+				]]></body>
+			</method>
+			
+			<method name="getValueLabel">
+				<body><![CDATA[
+					var field = this.getElementByAnonId('field');
+					if (this.propertyInfo['hasList'])
+					{
+						return field.getLabelByValue(field.value);
+					}
+					else
+					{
+						switch (this.propertyInfo['type'])
+						{
+							case 'DateTime' :
+								return field.formatDate(field.buildDate(field.value), "&modules.filter.bo.general.date-format;");
+								break;
+								
+							case 'Document' :
+								var labels = [];
+								var ids = field.value.split(',');
+								for (var i = 0; i < ids.length; i++)
+								{
+									labels.push(field.getLabelByValue(ids[i]));
+								}
+								return labels.join(', ');							
+							case 'Boolean' :
+								return (field.value == 'true') ? "&amp;modules.uixul.bo.general.yes;" : "&amp;modules.uixul.bo.general.no;";
+								break;
+							case 'Integer' :
+							case 'Double' :
+							case 'String' :
+							case 'LongString' :
+							case 'XHTMLFragment' :
+							default :
+								return field.value;
+								break;
+						}
+					}
+				]]></body>
+			</method>
+		</implementation>
+	</binding>
+</bindings>

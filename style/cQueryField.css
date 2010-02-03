@@ -1,0 +1,15 @@
+cFilterParameterValue,cFilterParameterRestriction,cFilterParameterProperty{
+	padding: 0px 5px;
+}
+.inline{
+	display: inline-block;
+}
+[anonid="text"]{
+	color: #283;
+	text-decoration: underline;
+	font-weight: bold;
+	cursor: pointer;
+}
+cFilterParameterValue[invalid="true"] [anonid="text"],cFilterParameterRestriction[invalid="true"] [anonid="text"],cFilterParameterProperty[invalid="true"] [anonid="text"]{
+	color: #f00;
+}
