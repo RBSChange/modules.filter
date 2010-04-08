@@ -210,7 +210,7 @@
 					newBox.appendChild(spacer);
 					
 					var button = document.createElement('toolbarbutton');
-					button.setAttribute('image', '{HttpHost}/icons/small/delete.png');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('height', '16');
 					button.setAttribute('label', "&amp;modules.filter.bo.dialog.Remove-filter;");
 					button.addEventListener('command', function () { _this.onRemove(this.parentNode); }, true);
@@ -306,7 +306,7 @@
 						<menulist anonid="default-menulist"></menulist>
 					</hbox>
 					<toolbar>
-						<toolbarbutton anonid="add-filter" image="{HttpHost}/icons/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
+						<toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
 						<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
 					</toolbar>
 				</vbox>
@@ -685,8 +685,8 @@
 					<label class="inline" anonid="text"><xbl:children/></label>
 				</hbox>
 				<hbox class="inline" anonid="field-zone" style="display: none">
-					<toolbarbutton class="inline" anonid="validation-button" height="16" image="{HttpHost}/icons/small/check.png" tooltiptext="&amp;modules.filter.bo.dialog.Validate-value;" oncommand="switchToText(true);" />
-					<toolbarbutton class="inline" anonid="undo-button" height="16" image="{HttpHost}/icons/small/undo.png" tooltiptext="&amp;modules.filter.bo.dialog.Undo-value;" oncommand="switchToText(false);" />
+					<toolbarbutton class="inline" anonid="validation-button" height="16" image="{IconsBase}/small/check.png" tooltiptext="&amp;modules.filter.bo.dialog.Validate-value;" oncommand="switchToText(true);" />
+					<toolbarbutton class="inline" anonid="undo-button" height="16" image="{IconsBase}/small/undo.png" tooltiptext="&amp;modules.filter.bo.dialog.Undo-value;" oncommand="switchToText(false);" />
 				</hbox>
 			</hbox>
 		</xbl:content>
