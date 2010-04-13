@@ -909,7 +909,6 @@
 								
 							case 'DateTime' :
 								field.setAttribute('fieldtype', 'datetime');
-								field.setAttribute('hidetime', 'true');
 								break;
 							
 							case 'Document' :
