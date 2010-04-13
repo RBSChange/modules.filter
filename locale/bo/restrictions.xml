@@ -1,53 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <localization>
-    <entity id="gt-text">
+	<entity id="gt-text">
 		<locale lang="fr">supérieur(e) à</locale>
 		<locale lang="en">greater than</locale>
-    </entity>
-    <entity id="ge-text">
+	</entity>
+	<entity id="ge-text">
 		<locale lang="fr">supérieur(e) ou égal(e) à</locale>
 		<locale lang="en">greater than or equal to</locale>
-    </entity>
-    <entity id="lt-text">
+	</entity>
+	<entity id="lt-text">
 		<locale lang="fr">inférieur(e) à</locale>
 		<locale lang="en">less than</locale>
-    </entity>
-    <entity id="le-text">
+	</entity>
+	<entity id="le-text">
 		<locale lang="fr">inférieur(e) ou égal(e) à</locale>
 		<locale lang="en">less than or equal to</locale>
-    </entity>
-    <entity id="ne-text">
+	</entity>
+	<entity id="ne-text">
 		<locale lang="fr">différent(e) de</locale>
 		<locale lang="en">different from</locale>
-    </entity>
-    <entity id="eq-text">
+	</entity>
+	<entity id="eq-text">
 		<locale lang="fr">égal(e) à</locale>
 		<locale lang="en">equal to</locale>
-    </entity>
-    <entity id="ieq-text">
+	</entity>
+	<entity id="ieq-text">
 		<locale lang="fr">égal(e) à (insensible à la casse)</locale>
 		<locale lang="en">equal to (case-insensitive)</locale>
-    </entity>
-    <entity id="like-text">
+	</entity>
+	<entity id="like-text">
 		<locale lang="fr">contient</locale>
 		<locale lang="en">containing</locale>
-    </entity>
-    <entity id="ilike-text">
+	</entity>
+	<entity id="ilike-text">
 		<locale lang="fr">contient (insensible à la casse)</locale>
 		<locale lang="en">containing (case-insensitive)</locale>
-    </entity>
-    <entity id="notLike-text">
+	</entity>
+	<entity id="notLike-text">
 		<locale lang="fr">ne contient pas</locale>
 		<locale lang="en">not containing</locale>
-    </entity>
-    
-    <entity id="in-text">
+	</entity>
+
+	<entity id="in-text">
 		<locale lang="fr">compris(e) dans</locale>
 		<locale lang="en">in</locale>
-    </entity>
-    
-    <entity id="notin-text">
+	</entity>
+
+	<entity id="notin-text">
 		<locale lang="fr">non compris(e) dans</locale>
 		<locale lang="en">not in</locale>
-    </entity>
+	</entity>
+
+	<entity id="beginsWith-text">
+		<locale lang="fr">commence par</locale>
+		<locale lang="en">begins with</locale>
+	</entity>
+
+	<entity id="ibeginsWith-text">
+		<locale lang="fr">commence par (insensible à la casse)</locale>
+		<locale lang="en">begins with (case-insensitive)</locale>
+	</entity>
+
+	<entity id="endsWith-text">
+		<locale lang="fr">termine par</locale>
+		<locale lang="en">ends with</locale>
+	</entity>
+
+	<entity id="iendsWith-text">
+		<locale lang="fr">termine par (insensible à la casse)</locale>
+		<locale lang="en">ends with (case-insensitive)</locale>
+	</entity>
 </localization>

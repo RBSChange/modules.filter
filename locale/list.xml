@@ -38,20 +38,20 @@
 	</entity>
 	
 	<entity id="date-unit-day">
-		<locale lang="fr">jour</locale>
-		<locale lang="en">day</locale>
+		<locale lang="fr">jour(s)</locale>
+		<locale lang="en">day(s)</locale>
 	</entity>
 	<entity id="date-unit-week">
-		<locale lang="fr">semaine</locale>
-		<locale lang="en">week</locale>
+		<locale lang="fr">semaine(s)</locale>
+		<locale lang="en">week(s)</locale>
 	</entity>
 	<entity id="date-unit-month">
 		<locale lang="fr">mois</locale>
-		<locale lang="en">month</locale>
+		<locale lang="en">month(s)</locale>
 	</entity>
 	<entity id="date-unit-year">
-		<locale lang="fr">année</locale>
-		<locale lang="en">year</locale>
+		<locale lang="fr">année(s)</locale>
+		<locale lang="en">year(s)</locale>
 	</entity>
 	
 	<!-- Date directions -->	
