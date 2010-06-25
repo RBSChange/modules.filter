@@ -11,24 +11,53 @@ class filter_GetDocumentQueryInfoAction extends f_action_BaseJSONAction
 	 */
 	public function _execute($context, $request)
 	{
-		$infoAsJson = $request->getParameter('infoAsJson');
-		$filters = array();
-		if ($infoAsJson)
-		{
-			$dfs = f_persistentdocument_DocumentFilterService::getInstance();
-			$filters = $dfs->getFilterArrayFromJson($infoAsJson);
-		}
 		
 		$result = array();
-		foreach ($filters as $filter)
+		$infoAsJson = $request->getParameter('infoAsJson');
+		if ($infoAsJson)
 		{
-			$filterInfo = array();
+			$info = JsonService::getInstance()->decode($infoAsJson);
+			$dfs = f_persistentdocument_DocumentFilterService::getInstance();
+			if (isset($info["elements"]))
+			{
+				$filters = $dfs->getFilterArrayFromJson($info["elements"]);
+			}
+			else
+			{
+				// filter <= 3.0.2 compatibility
+				$filters = $dfs->getFilterArrayFromJson($info);
+			}
+			foreach ($filters as $filter)
+			{
+				$filterInfo = array();
+				$this->addFilter($filterInfo, $filter);
+				$result[] = $filterInfo;
+			}
+		}
+		
+		return $this->sendJSON($result);
+	}
+	
+	private function addFilter(&$filterInfo, $filter)
+	{
+		if (is_object($filter))
+		{
 			$filterInfo['class'] = get_class($filter);
 			$filterInfo['label'] = $filter->getLabel();
 			$filterInfo['text'] = $filter->getText();
 			$filterInfo['textWithMarkers'] = $filter->getText(true);
-			$result[] = $filterInfo;
 		}
-		return $this->sendJSON($result);
+		else
+		{
+			$filterInfo['class'] = 'filterSection';
+			$sectionFilters = array();
+			foreach ($filter as $f)
+			{
+				$sectionFilterInfo = array();
+				$this->addFilter($sectionFilterInfo, $f);
+				$sectionFilters[] = $sectionFilterInfo;
+			}
+			$filterInfo['filters'] = $sectionFilters;
+		}
 	}
 }

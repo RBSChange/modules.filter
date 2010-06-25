@@ -33,6 +33,7 @@ class filter_GetDocumentFiltersByModelAction extends f_action_BaseJSONAction
 		}
 		asort($result, SORT_STRING);			
 		$subTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Query-on-'. $documentName.'Label;');
-		return $this->sendJSON(array('subTitle' => $subTitle, 'filters' => $result));
+		$orSubTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Or-query-on-'. $documentName.'Label;');
+		return $this->sendJSON(array('subTitle' => $subTitle, 'orSubTitle' => $orSubTitle, 'filters' => $result));
 	}
 }

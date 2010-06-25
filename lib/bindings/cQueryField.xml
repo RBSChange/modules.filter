@@ -11,6 +11,38 @@
 		
 		<implementation>
 			<field name="mCurrentValue">""</field>
+			<field name="m_operator">"and"</field>
+			
+			<property name="operator">
+				<getter><![CDATA[
+					return this.m_operator;
+				]]></getter>
+				<setter><![CDATA[
+					wCore.debug("cQueryField.setOperator "+val);
+					this.m_operator = val;
+					var subTitle = this.getElementByAnonId('sub-title');
+					var orSubTitle = this.getElementByAnonId('or-sub-title');
+					var subSectionTitle = null;
+					if (this.m_operator == "and")
+					{
+						subTitle.removeAttribute("hidden");
+						orSubTitle.setAttribute("hidden", "true");
+						subSectionTitle = '&modules.filter.bo.dialog.oneof-subfiltersLabel;';
+					}
+					else
+					{
+						subTitle.setAttribute("hidden", "true");
+						orSubTitle.removeAttribute("hidden");
+						subSectionTitle = '&modules.filter.bo.dialog.all-subfiltersLabel;';
+					}
+					
+					var sections = this.getElementByAnonId('filters-box').getElementsByTagName('cFilterSection');
+					for (var i = 0; i < sections.length; i++)
+					{
+						sections[i].setAttribute("title", subSectionTitle);
+					}
+				]]></setter>
+			</property>
 	
 			<property name="value" >
 				<getter><![CDATA[
@@ -44,8 +76,9 @@
 					if (result.status == 'OK')
 					{
 						var availableFilters = result.contents.filters;
-					 	
+						
 					 	this.getElementByAnonId('sub-title').setAttribute('value', result.contents.subTitle);
+					 	this.getElementByAnonId('or-sub-title').setAttribute('value', result.contents.orSubTitle);
 						var menupopup = window.document.createElement('menupopup');
 						
 						var menuitem = window.document.createElement('menuitem');			
@@ -66,7 +99,6 @@
 				 	else
 				 	{
 				 		this.getElementByAnonId('sub-title').setAttribute('value', '&modules.filter.bo.general.Filters-load-error;');
-				 	
 				 	}
 				 	this.setInitialValue(this.initialvalue);
 				} 
@@ -76,7 +108,13 @@
 				}			
 				]]></body>
 			</method>
-							     
+			
+			<method name="getAllowedMenuItems">
+				<body><![CDATA[
+				return this.getElementByAnonId('default-menulist').childNodes.item(0).cloneNode(true);
+				]]></body>
+			</method>
+					     
       		<method name="setInitialValue">
 				<parameter name="val" />
 				<body><![CDATA[
@@ -99,6 +137,7 @@
 			
 			<method name="reset">
 				<body><![CDATA[
+					wCore.debug("cQueryField.reset");
 					if (this.value != this.initialvalue)
 					{
 						this.setInitialValue(this.initialvalue);
@@ -109,20 +148,22 @@
 			
 			<method name="focus">
 				<body><![CDATA[
+					wCore.debug("cQueryField.focus");
 					this.getElementByAnonId('add-filter').focus();
 				]]></body>
 			</method>
 			
 			<method name="checkIsModified">
 				<body><![CDATA[
-				wCore.debug('initial: '+this.initialvalue+', current: '+this.value);
+					wCore.debug('initial: '+this.initialvalue+', current: '+this.value);
 					return this.initialvalue != this.value;
 				]]></body>
 			</method>
 			
 			<method name="onAdd">
 				<body><![CDATA[
-					_this = this;					
+					wCore.debug("cQueryField.onAdd");
+					var _this = this;					
 					var menuList = this.getElementByAnonId('default-menulist').cloneNode(true);
 					menuList.removeAttribute('anonid');
 					menuList.addEventListener('command', function () { _this.onSelectFilter(menuList); }, true);
@@ -130,9 +171,40 @@
 				]]></body>
 			</method>
 			
+			<method name="onAddFilterSection">
+				<!-- TODO -->
+				<body><![CDATA[
+					wCore.debug("cQueryField.onAddFilters");
+					var section = document.createElement('cFilterSection');
+					if (this.operator == "and")
+					{
+						subSectionTitle = '&modules.filter.bo.dialog.oneof-subfiltersLabel;';
+					}
+					else
+					{
+						subSectionTitle = '&modules.filter.bo.dialog.all-subfiltersLabel;';
+					}
+					section.setAttribute("title", subSectionTitle);
+					this.appendFilterSection(section);
+				]]></body>
+			</method>
+			
+			<method name="appendFilterSection">
+				<parameter name="section" />
+				<body><![CDATA[
+					var _this = this;
+					var newBox = document.createElement('hbox');			
+					newBox.setAttribute("style", "margin-bottom: 10px");	 	
+					newBox.appendChild(section);
+					
+					this.getElementByAnonId('filters-box').appendChild(newBox);
+				]]></body>
+			</method>
+			
 			<method name="onSelectFilter">
 				<parameter name="node" />
 				<body><![CDATA[
+					wCore.debug("cQueryField.onSelectFilter");
 					var filter = node.selectedItem.value;
 					if (filter != '')
 					{
@@ -149,6 +221,7 @@
 			<method name="onRemove">
 				<parameter name="node" />
 				<body><![CDATA[
+					wCore.debug("cQueryField.onRemove");
 					node.parentNode.removeChild(node);
 					this.valueChanged();
 				]]></body>
@@ -157,6 +230,7 @@
 			<method name="refreshInterface">
 				<parameter name="json" />
 				<body><![CDATA[
+					wCore.debug("cQueryField.refreshInterface "+json);
 					var filtersBox = this.getElementByAnonId('filters-box');
 					
 					// Clear old filters.
@@ -172,28 +246,48 @@
 						var filtersInfo = result['contents'];
 						for each (filterInfo in filtersInfo)
 						{
-							var doc = new DOMParser().parseFromString('<cFilter name="' + filterInfo.class + '">' + filterInfo.textWithMarkers + '</cFilter>', 'text/xml');
-							this.appendFilter(doc.documentElement);
+							if (filterInfo.class != "filterSection")
+							{
+								var doc = new DOMParser().parseFromString('<cFilter name="' + filterInfo.class + '">' + filterInfo.textWithMarkers + '</cFilter>', 'text/xml');
+								this.appendFilter(doc.documentElement);
+							}
+							else
+							{
+								var filtersElem = document.createElement('cFilterSection');
+								for (var i = 0; i < filterInfo.filters.length; i++)
+								{
+									var doc = new DOMParser().parseFromString('<cFilter name="' + filterInfo.filters[i].class + '">' + filterInfo.filters[i].textWithMarkers + '</cFilter>', 'text/xml');
+									filtersElem.appendChild(doc.documentElement);
+								}
+								
+								this.appendFilterSection(filtersElem);
+							}
 						}
+						
+						// TODO: do echo from server ... ?
+						var decoded = wCore.parseJSON(json);
+						this.operator = decoded.operator;
+					}
+					else
+					{
+						this.operator = "and";
 					}
 				]]></body>
 			</method>
 			
 			<method name="getInfos">
 				<body><![CDATA[
-					//wCore.debug('cQueryField.getInfos');
-					var nodes = this.getElementByAnonId('filters-box').getElementsByTagName('cFilter');
-					if (nodes.length == 0)
+					wCore.debug('cQueryField.getInfos');
+					var filtersBox = this.getElementByAnonId('filters-box');
+					var infos = {};
+					infos.operator = this.operator;
+					var elements = [];
+					for (var i = 0; i < filtersBox.childNodes.length; i++)
 					{
-						return null;
+						elements.push(filtersBox.childNodes[i].childNodes[0].getInfos());
 					}
+					infos.elements = elements;
 					
-					var infos = [];
-					for (var i = 0; i < nodes.length; i++)
-					{
-						var node = nodes[i];
-						infos.push(node.getInfos());
-					}					
 					return infos;
 				]]></body>
 			</method>
@@ -274,6 +368,14 @@
 					return null;
 				]]></body>
 			</method>
+			
+			<method name="switchOperator">
+				<body><![CDATA[
+				this.operator = ((this.operator == "and") ? "or" : "and");
+				this.valueChanged();
+				]]></body>
+			</method>
+			
 		</implementation>
 		
 		<handlers>
@@ -299,16 +401,20 @@
 			xmlns:html="http://www.w3.org/1999/xhtml"
 			xmlns:xbl="http://www.mozilla.org/xbl">
 			<vbox flex="1">
-				<vbox>
-					<label anonid="sub-title" />
+				<vbox align="start">
+					<label class="text-link" anonid="sub-title" onclick="document.getBindingParent(this).switchOperator();" />
+					<label class="text-link" anonid="or-sub-title" hidden="true" onclick="document.getBindingParent(this).switchOperator();"/>
 					<vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 15px" anonid="filters-box" />
-					<hbox anonid="default-line" style="display: none;">
+					<vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 5px">
+						<toolbar>
+							<toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
+							<toolbarbutton anonid="add-filters" image="{IconsBase}/small/add.png" oncommand="onAddFilterSection();" label="&amp;modules.filter.bo.dialog.Add-filter-section;" />
+							<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
+						</toolbar>
+					</vbox>
+					<hbox anonid="default-line" hidden="true">
 						<menulist anonid="default-menulist"></menulist>
 					</hbox>
-					<toolbar>
-						<toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
-						<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
-					</toolbar>
 				</vbox>
 			</vbox>
 		</xbl:content>
@@ -340,7 +446,7 @@
 						var node = nodes[i];
 						info.parameters[node.name] = [node.property, node.restriction, node.value];
 					}
-					return info;	
+					return info;
 				]]></body>
 			</method>
 			
@@ -369,7 +475,194 @@
 		</xbl:content>
 	</binding>
 	
+	<binding id="cFilterSection">
+		<implementation>
+			<constructor><![CDATA[
+				wCore.debug("cFilterSection.constructor");
+				this.getElementByAnonId('default-menulist').appendChild(this.getCQueryField().getAllowedMenuItems());
+				
+				var initialFilters = this.getElementsByTagName('cFilter');
+				if (initialFilters.length > 0)
+				{
+					while (initialFilters.length > 0)
+					{
+						var initialFilter = initialFilters[0];
+						this.appendFilter(initialFilter.parentNode.removeChild(initialFilter));
+					}
+				}
+				else
+				{
+					this.onAdd();
+				}
+			]]></constructor>
+			
+			<method name="getCQueryField">
+				<body><![CDATA[
+				var parent = this.parentNode;
+				while (parent != null && parent.tagName != "cfield" && parent.getAttribute("fieldtype") != "query")
+				{
+					parent = parent.parentNode;
+				}
+				return parent;
+				]]></body>
+			</method>
+			
+			<method name="getInfos">
+				<body><![CDATA[
+					wCore.debug("cFilterSection.getInfos");
+					var nodes = this.getFilters();
+					
+					var info = {};
+					info.class = 'filterSection';
+					info.filters = [];
+					for (var i = 0; i < nodes.length; i++)
+					{
+						var filter = nodes[i];
+						info.filters.push(filter.getInfos());
+					}
+					
+					return info;
+				]]></body>
+			</method>
+			
+			<method name="getFilters">
+				<body><![CDATA[
+					return this.getElementByAnonId('filters-box').getElementsByTagName('cFilter');
+				]]></body>
+			</method>
+			
+			<method name="valueChanged">
+				<body><![CDATA[
+				this.getCQueryField().valueChanged();
+				]]></body>
+			</method>
+			
+			<method name="onAdd">
+				<body><![CDATA[
+					wCore.debug("cQueryField.onAdd");
+					var _this = this;					
+					var menuList = this.getElementByAnonId('default-menulist').cloneNode(true);
+					menuList.removeAttribute('anonid');
+					menuList.addEventListener('command', function () { _this.onSelectFilter(menuList); }, true);
+					this.appendFilter(menuList);
+				]]></body>
+			</method>
+			
+			<method name="onRemove">
+				<parameter name="node" />
+				<body><![CDATA[
+					wCore.debug("cQueryField.onRemove");
+					node.parentNode.removeChild(node);
+					var filters = this.getFilters();
+					if (filters.length == 0)
+					{
+						this.getCQueryField().onRemove(this.parentNode);
+					}
+					else
+					{
+						this.valueChanged();
+					}
+				]]></body>
+			</method>
+			
+			<method name="refreshInterface">
+				<parameter name="json" />
+				<body><![CDATA[
+					wCore.debug("cQueryField.refreshInterface "+json);
+					var filtersBox = this.getElementByAnonId('filters-box');
+					
+					// Clear old filters.
+					while (filtersBox.firstChild)
+					{
+						filtersBox.removeChild(filtersBox.firstChild);
+					}
+					
+					// Set new filters.
+					if (json.length > 0)
+					{
+						var result = wCore.executeJSON('filter', 'GetDocumentQueryInfo', { infoAsJson: json }, null, true);
+						var filtersInfo = result['contents'];
+						for each (filterInfo in filtersInfo)
+						{
+							var doc = new DOMParser().parseFromString('<cFilter name="' + filterInfo.class + '">' + filterInfo.textWithMarkers + '</cFilter>', 'text/xml');
+							this.appendFilter(doc.documentElement);
+						}
+					}
+				]]></body>
+			</method>
+			
+			<method name="onSelectFilter">
+				<parameter name="node" />
+				<body><![CDATA[
+					wCore.debug("cQueryField.onSelectFilter");
+					var filter = node.selectedItem.value;
+					if (filter != '')
+					{
+						var result = wCore.executeJSON('filter', 'GetDocumentFilterInfo', { filter: filter }, null);
+						var filterInfo = result['contents'];
+					 	
+						var doc = new DOMParser().parseFromString('<cFilter name="' + filter + '">' + filterInfo.textWithMarkers + '</cFilter>', 'text/xml');
+						node.parentNode.replaceChild(doc.documentElement, node);
+						this.valueChanged();
+					}
+				]]></body>
+			</method>
+			
+			<method name="appendFilter">
+				<parameter name="node" />
+				<body><![CDATA[
+					var _this = this;
+					var newBox = document.createElement('hbox');				 	
+					newBox.appendChild(node);
+					
+					var spacer = document.createElement('spacer');
+					spacer.setAttribute('style', 'width: 10px');
+					newBox.appendChild(spacer);
+					
+					var button = document.createElement('toolbarbutton');
+					button.setAttribute('image', '{IconsBase}/small/delete.png');
+					button.setAttribute('height', '16');
+					button.setAttribute('label', "&amp;modules.filter.bo.dialog.Remove-filter;");
+					button.addEventListener('command', function () { _this.onRemove(this.parentNode); }, true);
+					newBox.appendChild(button);
+					
+					this.getElementByAnonId('filters-box').appendChild(newBox);
+				]]></body>
+			</method>
+			
+			<method name="getElementByAnonId">
+				<parameter name="id"/>
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, "anonid", id);
+				]]></body>
+			</method>
+		</implementation>
+		
+		<xbl:content
+			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+			xmlns:html="http://www.w3.org/1999/xhtml"
+			xmlns:xbl="http://www.mozilla.org/xbl">
+			<vbox flex="1">
+				<box style="display: none;" anonid="initial-filters"><xbl:children /></box>
+				<vbox>
+					<label anonid="sub-title" xbl:inherits="value=title" style="margin-left: 0px;" />
+					<vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 5px 5px 0px 15px;" anonid="filters-box" />
+					<vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 0px 0px 0px 7px;">
+						<toolbar>
+							<toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
+							<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
+						</toolbar>
+					</vbox>
+					<hbox anonid="default-line" style="display: none;">
+						<menulist anonid="default-menulist"></menulist>
+					</hbox>
+				</vbox>
+			</vbox>
+		</xbl:content>
+	</binding>
+	
 	<binding id="cFilterParameter">
+		
 		<implementation>
 			<field name="elementsValidity" />
 		
@@ -682,7 +975,7 @@
 			xmlns:xbl="http://www.mozilla.org/xbl">
 			<hbox class="inline">
 				<hbox class="inline" anonid="text-zone">
-					<label class="inline" anonid="text"><xbl:children/></label>
+					<label class="text-link inline" anonid="text"><xbl:children/></label>
 				</hbox>
 				<hbox class="inline" anonid="field-zone" style="display: none">
 					<toolbarbutton class="inline" anonid="validation-button" height="16" image="{IconsBase}/small/check.png" tooltiptext="&amp;modules.filter.bo.dialog.Validate-value;" oncommand="switchToText(true);" />

@@ -4,12 +4,12 @@ cFilterParameterValue,cFilterParameterRestriction,cFilterParameterProperty{
 .inline{
 	display: inline-block;
 }
-[anonid="text"]{
-	color: #283;
-	text-decoration: underline;
+
+cfield[fieldtype="query"] label.text-link {
+	color: #283!important;
 	font-weight: bold;
-	cursor: pointer;
 }
+
 cFilterParameterValue[invalid="true"] [anonid="text"],cFilterParameterRestriction[invalid="true"] [anonid="text"],cFilterParameterProperty[invalid="true"] [anonid="text"]{
 	color: #f00;
 }

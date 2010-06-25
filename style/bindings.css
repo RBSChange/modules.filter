@@ -7,6 +7,9 @@ cfield[fieldtype="objectfilter"]{
 cFilter{
 	-moz-binding: url(binding:modules.filter.cQueryField#cFilter);
 }
+cFilterSection{
+	-moz-binding: url(binding:modules.filter.cQueryField#cFilterSection);
+}
 cFilterParameter{
 	-moz-binding: url(binding:modules.filter.cQueryField#cFilterParameter);
 }

@@ -14,6 +14,11 @@
 		<locale lang="fr">ajouter un filtre</locale>
 		<locale lang="en">add filter</locale>
 	</entity>
+	
+	<entity id="add-filter-section">
+		<locale lang="fr">ajouter un groupe de filtres</locale>
+		<locale lang="en">add filter section</locale>
+	</entity>
 
 	<entity id="validate-value">
 		<locale lang="fr">valider la valeur</locale>
@@ -24,4 +29,15 @@
 		<locale lang="fr">revenir à la valeur précédente</locale>
 		<locale lang="en">back to last value</locale>
 	</entity>
+	
+	<entity id="oneof-subfilters">
+		<locale lang="fr">un des filtres suivants</locale>
+		<locale lang="en">one of the following filters</locale>
+	</entity>
+	
+	<entity id="all-subfilters">
+		<locale lang="fr">tous les filtres suivants</locale>
+		<locale lang="en">all the following filters</locale>
+	</entity>
+	
 </localization>
