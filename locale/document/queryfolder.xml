@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<localization extend="modules.generic.document.folder">
+  <entity id="document-name">
+    <locale lang="fr">queryfolder</locale>
+    <locale lang="en">queryfolder</locale>
+  </entity>
+  <entity id="formodelname">
+    <locale lang="fr">[TO TRANSLATE] formodelname</locale>
+    <locale lang="en">[TO TRANSLATE] formodelname</locale>
+  </entity>
+  <entity id="formodelname-help">
+    <locale lang="fr">[TO TRANSLATE] formodelname-help</locale>
+    <locale lang="en">[TO TRANSLATE] formodelname-help</locale>
+  </entity>
+  <entity id="query">
+    <locale lang="fr">[TO TRANSLATE] query</locale>
+    <locale lang="en">[TO TRANSLATE] query</locale>
+  </entity>
+  <entity id="query-help">
+    <locale lang="fr">[TO TRANSLATE] query-help</locale>
+    <locale lang="en">[TO TRANSLATE] query-help</locale>
+  </entity>
+</localization>
