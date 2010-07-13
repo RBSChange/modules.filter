@@ -178,11 +178,11 @@
 					var section = document.createElement('cFilterSection');
 					if (this.operator == "and")
 					{
-						subSectionTitle = '&modules.filter.bo.dialog.oneof-subfiltersLabel;';
+						var subSectionTitle = '&modules.filter.bo.dialog.oneof-subfiltersLabel;';
 					}
 					else
 					{
-						subSectionTitle = '&modules.filter.bo.dialog.all-subfiltersLabel;';
+						var subSectionTitle = '&modules.filter.bo.dialog.all-subfiltersLabel;';
 					}
 					section.setAttribute("title", subSectionTitle);
 					this.appendFilterSection(section);
@@ -192,11 +192,10 @@
 			<method name="appendFilterSection">
 				<parameter name="section" />
 				<body><![CDATA[
-					var _this = this;
 					var newBox = document.createElement('hbox');			
 					newBox.setAttribute("style", "margin-bottom: 10px");	 	
 					newBox.appendChild(section);
-					
+					wCore.debug('appendFilterSection');
 					this.getElementByAnonId('filters-box').appendChild(newBox);
 				]]></body>
 			</method>
@@ -477,8 +476,11 @@
 	
 	<binding id="cFilterSection">
 		<implementation>
+			
+			
 			<constructor><![CDATA[
 				wCore.debug("cFilterSection.constructor");
+				
 				this.getElementByAnonId('default-menulist').appendChild(this.getCQueryField().getAllowedMenuItems());
 				
 				var initialFilters = this.getElementsByTagName('cFilter');
@@ -498,8 +500,8 @@
 			
 			<method name="getCQueryField">
 				<body><![CDATA[
-				var parent = this.parentNode;
-				while (parent != null && parent.tagName != "cfield" && parent.getAttribute("fieldtype") != "query")
+				var parent = this.parentNode;				
+				while (parent != null && parent.localName != "cfield")
 				{
 					parent = parent.parentNode;
 				}
