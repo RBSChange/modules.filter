@@ -18,7 +18,7 @@
 					return this.m_operator;
 				]]></getter>
 				<setter><![CDATA[
-					wCore.debug("cQueryField.setOperator "+val);
+					//wCore.debug("cQueryField.setOperator "+val);
 					this.m_operator = val;
 					var subTitle = this.getElementByAnonId('sub-title');
 					var orSubTitle = this.getElementByAnonId('or-sub-title');
@@ -72,7 +72,7 @@
 				<body><![CDATA[
 				try
 				{	
-					wCore.debug("cQueryField.onFilterLoaded");
+					//wCore.debug("cQueryField.onFilterLoaded");
 					if (result.status == 'OK')
 					{
 						var availableFilters = result.contents.filters;
@@ -137,7 +137,7 @@
 			
 			<method name="reset">
 				<body><![CDATA[
-					wCore.debug("cQueryField.reset");
+					//wCore.debug("cQueryField.reset");
 					if (this.value != this.initialvalue)
 					{
 						this.setInitialValue(this.initialvalue);
@@ -148,21 +148,21 @@
 			
 			<method name="focus">
 				<body><![CDATA[
-					wCore.debug("cQueryField.focus");
+					//wCore.debug("cQueryField.focus");
 					this.getElementByAnonId('add-filter').focus();
 				]]></body>
 			</method>
 			
 			<method name="checkIsModified">
 				<body><![CDATA[
-					wCore.debug('initial: '+this.initialvalue+', current: '+this.value);
+					//wCore.debug('initial: '+this.initialvalue+', current: '+this.value);
 					return this.initialvalue != this.value;
 				]]></body>
 			</method>
 			
 			<method name="onAdd">
 				<body><![CDATA[
-					wCore.debug("cQueryField.onAdd");
+					//wCore.debug("cQueryField.onAdd");
 					var _this = this;					
 					var menuList = this.getElementByAnonId('default-menulist').cloneNode(true);
 					menuList.removeAttribute('anonid');
@@ -174,7 +174,7 @@
 			<method name="onAddFilterSection">
 				<!-- TODO -->
 				<body><![CDATA[
-					wCore.debug("cQueryField.onAddFilters");
+					//wCore.debug("cQueryField.onAddFilters");
 					var section = document.createElement('cFilterSection');
 					if (this.operator == "and")
 					{
@@ -195,7 +195,7 @@
 					var newBox = document.createElement('hbox');			
 					newBox.setAttribute("style", "margin-bottom: 10px");	 	
 					newBox.appendChild(section);
-					wCore.debug('appendFilterSection');
+					//wCore.debug('appendFilterSection');
 					this.getElementByAnonId('filters-box').appendChild(newBox);
 				]]></body>
 			</method>
@@ -203,7 +203,7 @@
 			<method name="onSelectFilter">
 				<parameter name="node" />
 				<body><![CDATA[
-					wCore.debug("cQueryField.onSelectFilter");
+					//wCore.debug("cQueryField.onSelectFilter");
 					var filter = node.selectedItem.value;
 					if (filter != '')
 					{
@@ -220,7 +220,7 @@
 			<method name="onRemove">
 				<parameter name="node" />
 				<body><![CDATA[
-					wCore.debug("cQueryField.onRemove");
+					//wCore.debug("cQueryField.onRemove");
 					node.parentNode.removeChild(node);
 					this.valueChanged();
 				]]></body>
@@ -229,7 +229,7 @@
 			<method name="refreshInterface">
 				<parameter name="json" />
 				<body><![CDATA[
-					wCore.debug("cQueryField.refreshInterface "+json);
+					//wCore.debug("cQueryField.refreshInterface "+json);
 					var filtersBox = this.getElementByAnonId('filters-box');
 					
 					// Clear old filters.
@@ -276,7 +276,7 @@
 			
 			<method name="getInfos">
 				<body><![CDATA[
-					wCore.debug('cQueryField.getInfos');
+					//wCore.debug('cQueryField.getInfos');
 					var filtersBox = this.getElementByAnonId('filters-box');
 					var infos = {};
 					infos.operator = this.operator;
