@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<bindings xmlns="http://www.mozilla.org/xbl" 
-	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" 
-	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" 
-	xmlns:xbl="http://www.mozilla.org/xbl">
+<bindings xmlns="http://www.mozilla.org/xbl" xmlns:xbl="http://www.mozilla.org/xbl" xmlns:html="http://www.w3.org/1999/xhtml"
+	xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	
 	<binding id="cQueryField" extends="form.cField#cAbstractField">
 		<resources>
 			<stylesheet src="modules.filter.cQueryField" />
-		</resources>
-		
+		</resources>		
 		<implementation>
 			<field name="mCurrentValue">""</field>
 			<field name="m_operator">"and"</field>
@@ -172,7 +169,6 @@
 			</method>
 			
 			<method name="onAddFilterSection">
-				<!-- TODO -->
 				<body><![CDATA[
 					//wCore.debug("cQueryField.onAddFilters");
 					var section = document.createElement('cFilterSection');
@@ -195,7 +191,6 @@
 					var newBox = document.createElement('hbox');			
 					newBox.setAttribute("style", "margin-bottom: 10px");	 	
 					newBox.appendChild(section);
-					//wCore.debug('appendFilterSection');
 					this.getElementByAnonId('filters-box').appendChild(newBox);
 				]]></body>
 			</method>
@@ -379,13 +374,13 @@
 		
 		<handlers>
 			<handler event="focus" phase="capturing"><![CDATA[
-				if (this.hasAttribute("focused")) {return;}
+				if (this.hasAttribute("focused")) { return; }
 				this.setAttribute("focused", "true");
 				this.dispatchFieldEvent('fieldFocus');
 			]]></handler>
 
 			<handler event="blur" phase="capturing"><![CDATA[
-				if (!this.hasAttribute("focused")) {return;}
+				if (!this.hasAttribute("focused")) { return; }
 				this.removeAttribute('focused');
 				this.dispatchFieldEvent('fieldBlur');
 			]]></handler>
@@ -394,29 +389,25 @@
 				this.valueChanged();
 			]]></handler>
 		</handlers>
-		
-		<xbl:content
-			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-			xmlns:html="http://www.w3.org/1999/xhtml"
-			xmlns:xbl="http://www.mozilla.org/xbl">
-			<vbox flex="1">
-				<vbox align="start">
-					<label class="text-link" anonid="sub-title" onclick="document.getBindingParent(this).switchOperator();" />
-					<label class="text-link" anonid="or-sub-title" hidden="true" onclick="document.getBindingParent(this).switchOperator();"/>
-					<vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 15px" anonid="filters-box" />
-					<vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 5px">
-						<toolbar>
-							<toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
-							<toolbarbutton anonid="add-filters" image="{IconsBase}/small/add.png" oncommand="onAddFilterSection();" label="&amp;modules.filter.bo.dialog.Add-filter-section;" />
-							<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
-						</toolbar>
-					</vbox>
-					<hbox anonid="default-line" hidden="true">
-						<menulist anonid="default-menulist"></menulist>
-					</hbox>
-				</vbox>
-			</vbox>
-		</xbl:content>
+		<content>
+			<xul:vbox flex="1">
+				<xul:vbox align="start">
+					<xul:label class="text-link" anonid="sub-title" onclick="document.getBindingParent(this).switchOperator();" />
+					<xul:label class="text-link" anonid="or-sub-title" hidden="true" onclick="document.getBindingParent(this).switchOperator();"/>
+					<xul:vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 15px" anonid="filters-box" />
+					<xul:vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 5px">
+						<xul:toolbar>
+							<xul:toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
+							<xul:toolbarbutton anonid="add-filters" image="{IconsBase}/small/add.png" oncommand="onAddFilterSection();" label="&amp;modules.filter.bo.dialog.Add-filter-section;" />
+							<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
+						</xul:toolbar>
+					</xul:vbox>
+					<xul:hbox anonid="default-line" hidden="true">
+						<xul:menulist anonid="default-menulist" />
+					</xul:hbox>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
 	</binding>
 	
 	<binding id="cObjectFilterField" extends="modules.filter.cQueryField#cQueryField" />
@@ -428,10 +419,6 @@
 					return this.getAttribute('name');
 				]]></getter>
 			</property>
-						
-			<constructor><![CDATA[
-				//wCore.debug("cFilter.constructor");
-			]]></constructor>
 			
 			<method name="getInfos">
 				<body><![CDATA[
@@ -464,25 +451,16 @@
 					return true;	
 				]]></body>
 			</method>
-		</implementation>
-		
-		<xbl:content
-			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-			xmlns:html="http://www.w3.org/1999/xhtml"
-			xmlns:xbl="http://www.mozilla.org/xbl">
-			<children />
-		</xbl:content>
+		</implementation>		
+		<content>
+			<xbl:children />
+		</content>
 	</binding>
 	
 	<binding id="cFilterSection">
 		<implementation>
-			
-			
 			<constructor><![CDATA[
-				wCore.debug("cFilterSection.constructor");
-				
 				this.getElementByAnonId('default-menulist').appendChild(this.getCQueryField().getAllowedMenuItems());
-				
 				var initialFilters = this.getElementsByTagName('cFilter');
 				if (initialFilters.length > 0)
 				{
@@ -511,7 +489,7 @@
 			
 			<method name="getInfos">
 				<body><![CDATA[
-					wCore.debug("cFilterSection.getInfos");
+					//wCore.debug("cFilterSection.getInfos");
 					var nodes = this.getFilters();
 					
 					var info = {};
@@ -541,7 +519,7 @@
 			
 			<method name="onAdd">
 				<body><![CDATA[
-					wCore.debug("cQueryField.onAdd");
+					//wCore.debug("cQueryField.onAdd");
 					var _this = this;					
 					var menuList = this.getElementByAnonId('default-menulist').cloneNode(true);
 					menuList.removeAttribute('anonid');
@@ -553,7 +531,7 @@
 			<method name="onRemove">
 				<parameter name="node" />
 				<body><![CDATA[
-					wCore.debug("cQueryField.onRemove");
+					//wCore.debug("cQueryField.onRemove");
 					node.parentNode.removeChild(node);
 					var filters = this.getFilters();
 					if (filters.length == 0)
@@ -570,7 +548,7 @@
 			<method name="refreshInterface">
 				<parameter name="json" />
 				<body><![CDATA[
-					wCore.debug("cQueryField.refreshInterface "+json);
+					//wCore.debug("cQueryField.refreshInterface "+json);
 					var filtersBox = this.getElementByAnonId('filters-box');
 					
 					// Clear old filters.
@@ -596,7 +574,7 @@
 			<method name="onSelectFilter">
 				<parameter name="node" />
 				<body><![CDATA[
-					wCore.debug("cQueryField.onSelectFilter");
+					//wCore.debug("cQueryField.onSelectFilter");
 					var filter = node.selectedItem.value;
 					if (filter != '')
 					{
@@ -638,33 +616,28 @@
 					return document.getAnonymousElementByAttribute(this, "anonid", id);
 				]]></body>
 			</method>
-		</implementation>
-		
-		<xbl:content
-			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-			xmlns:html="http://www.w3.org/1999/xhtml"
-			xmlns:xbl="http://www.mozilla.org/xbl">
-			<vbox flex="1">
-				<box style="display: none;" anonid="initial-filters"><xbl:children /></box>
-				<vbox>
-					<label anonid="sub-title" xbl:inherits="value=title" style="margin-left: 0px;" />
-					<vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 5px 5px 0px 15px;" anonid="filters-box" />
-					<vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 0px 0px 0px 7px;">
-						<toolbar>
-							<toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
-							<toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
-						</toolbar>
-					</vbox>
-					<hbox anonid="default-line" style="display: none;">
-						<menulist anonid="default-menulist"></menulist>
-					</hbox>
-				</vbox>
-			</vbox>
-		</xbl:content>
+		</implementation>		
+		<content>
+			<xul:vbox flex="1">
+				<xul:box style="display: none;" anonid="initial-filters"><xbl:children /></xul:box>
+				<xul:vbox>
+					<xul:label anonid="sub-title" xbl:inherits="value=title" style="margin-left: 0px;" />
+					<xul:vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 5px 5px 0px 15px;" anonid="filters-box" />
+					<xul:vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 0px 0px 0px 7px;">
+						<xul:toolbar>
+							<xul:toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="&amp;modules.filter.bo.dialog.Add-filter;" />
+							<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
+						</xul:toolbar>
+					</xul:vbox>
+					<xul:hbox anonid="default-line" style="display: none;">
+						<xul:menulist anonid="default-menulist" />
+					</xul:hbox>
+				</xul:vbox>
+			</xul:vbox>
+		</content>
 	</binding>
 	
-	<binding id="cFilterParameter">
-		
+	<binding id="cFilterParameter">		
 		<implementation>
 			<field name="elementsValidity" />
 		
@@ -682,22 +655,18 @@
 			
 			<property name="property">
 				<getter><![CDATA[
-					if (this.hasAttribute('property'))
-					{
-						return this.getAttribute('property');
-					}
-					return null;
+					return (this.hasAttribute('property')) ? this.getAttribute('property') : null;
 				]]></getter>
 				<setter><![CDATA[
 					this.setAttribute('property', val);
 					var nodes = this.getElementsByTagName('cFilterParameterRestriction');
-					if (nodes.length);
+					if (nodes.length)
 					{
 						nodes[0].reset();
 					}
 					this.restriction = null;
 					var nodes = this.getElementsByTagName('cFilterParameterValue');
-					if (nodes.length);
+					if (nodes.length)
 					{
 						nodes[0].reset();
 					}
@@ -707,11 +676,7 @@
 			
 			<property name="restriction">
 				<getter><![CDATA[
-					if (this.hasAttribute('restriction'))
-					{
-						return this.getAttribute('restriction');
-					}
-					return null;
+					return (this.hasAttribute('restriction')) ? this.getAttribute('restriction') : null;
 				]]></getter>
 				<setter><![CDATA[
 					this.setAttribute('restriction', val);
@@ -720,11 +685,7 @@
 			
 			<property name="value">
 				<getter><![CDATA[
-					if (this.hasAttribute('value'))
-					{
-						return this.getAttribute('value');
-					}
-					return null;
+					return (this.hasAttribute('value')) ? this.getAttribute('value') : null;
 				]]></getter>
 				<setter><![CDATA[
 					this.setAttribute('value', val);
@@ -733,7 +694,6 @@
 						
 			<constructor><![CDATA[
 				this.elementsValidity = {property: true, restriction: true, value: true};
-				//wCore.debug("cFilterParameter.constructor");
 			]]></constructor>
 			
 			<method name="hasProperty">
@@ -767,14 +727,10 @@
 					return (this.elementsValidity['property'] && this.elementsValidity['restriction'] && this.elementsValidity['value']);
 				]]></body>
 			</method>			
-		</implementation>
-		
-		<xbl:content
-			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-			xmlns:html="http://www.w3.org/1999/xhtml"
-			xmlns:xbl="http://www.mozilla.org/xbl">
-			<children />
-		</xbl:content>
+		</implementation>		
+		<content>
+			<xbl:children />
+		</content>
 	</binding>
 	
 	<binding id="cFilterParameterElement">
@@ -784,14 +740,6 @@
 			<field name="valueLoaded">false</field>
 			<field name="parameterNode" />
 			<field name="elementType" />
-			
-			<method name="getElementByAnonId">
-				<parameter name="id"/>
-				<body><![CDATA[
-					return document.getAnonymousElementByAttribute(this, "anonid", id);
-				]]></body>
-			</method>			
-			
 			
 			<property name="value">
 				<getter><![CDATA[
@@ -818,7 +766,6 @@
 						}
 						parent = parent.parentNode;
 					}
-					//wCore.debug("cFilterParameterElement.constructor");
 				} 
 				catch (e)
 				{
@@ -826,6 +773,13 @@
 				}
 			]]></constructor>
 						
+			<method name="getElementByAnonId">
+				<parameter name="id"/>
+				<body><![CDATA[
+					return document.getAnonymousElementByAttribute(this, "anonid", id);
+				]]></body>
+			</method>
+			
 			<method name="switchToField">
 				<body><![CDATA[
 					//wCore.debug("cFilterParameterElement.switchToField");
@@ -858,6 +812,7 @@
 					else
 					{
 						this.getElementByAnonId('field').value = this.getValueFromParameter();
+						this.updateText();
 					}
 					this.getElementByAnonId('text-zone').removeAttribute('style');
 					this.getElementByAnonId('field-zone').setAttribute('style', 'display: none');
@@ -907,7 +862,6 @@
 					if (this.fieldLoaded && this.getElementByAnonId('field').value)
 					{
 						this.getElementByAnonId('text').value = this.getValueLabel();
-						//wCore.debug('valueLabel = '+this.getValueLabel());
 					}
 					else
 					{
@@ -920,12 +874,12 @@
 				<parameter name="value" />
 				<body><![CDATA[
 					var field = this.getElementByAnonId('field');
-					var _this = this;
+					var me = this;
 					wCore.executeOnMethodExists(field, 'setInitialValue', function ()
 						{
 							field.setInitialValue(value);
-							_this.updateText(); 
-							_this.valueLoaded = true;
+							me.updateText(); 
+							me.valueLoaded = true;
 						}
 					);
 				]]></body>
@@ -952,8 +906,7 @@
 					return ((value !== null) && (value !== ''));
 				]]></body>
 			</method>
-		</implementation>
-		
+		</implementation>		
 		<handlers>
 			<handler event="click" phase="capturing"><![CDATA[
 				//wCore.debug('click: '+event.originalTarget.tagName);
@@ -965,26 +918,21 @@
 			]]></handler>
 			
 			<handler event="fieldChanged" phase="capturing"><![CDATA[
-				// The query filed is change only when a parameter validation 
-				// is validated and not when the sub-field is changed.
+				// The query field is changed only when a parameter is validated and not when the sub-field is changed.
 				event.stopPropagation();
 			]]></handler>
 		</handlers>
-		
-		<xbl:content
-			xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
-			xmlns:html="http://www.w3.org/1999/xhtml"
-			xmlns:xbl="http://www.mozilla.org/xbl">
-			<hbox class="inline">
-				<hbox class="inline" anonid="text-zone">
-					<label class="text-link inline" anonid="text"><xbl:children/></label>
-				</hbox>
-				<hbox class="inline" anonid="field-zone" style="display: none">
-					<toolbarbutton class="inline" anonid="validation-button" height="16" image="{IconsBase}/small/check.png" tooltiptext="&amp;modules.filter.bo.dialog.Validate-value;" oncommand="switchToText(true);" />
-					<toolbarbutton class="inline" anonid="undo-button" height="16" image="{IconsBase}/small/undo.png" tooltiptext="&amp;modules.filter.bo.dialog.Undo-value;" oncommand="switchToText(false);" />
-				</hbox>
-			</hbox>
-		</xbl:content>
+		<content>
+			<xul:hbox class="inline">
+				<xul:hbox class="inline" anonid="text-zone">
+					<xul:label class="text-link inline" anonid="text"><xbl:children/></xul:label>
+				</xul:hbox>
+				<xul:hbox class="inline" anonid="field-zone" style="display: none">
+					<xul:toolbarbutton class="inline" anonid="validation-button" height="16" image="{IconsBase}/small/check.png" tooltiptext="&amp;modules.filter.bo.dialog.Validate-value;" oncommand="switchToText(true);" />
+					<xul:toolbarbutton class="inline" anonid="undo-button" height="16" image="{IconsBase}/small/undo.png" tooltiptext="&amp;modules.filter.bo.dialog.Undo-value;" oncommand="switchToText(false);" />
+				</xul:hbox>
+			</xul:hbox>
+		</content>
 	</binding>
 	
 	<binding id="cFilterParameterProperty" extends="modules.filter.cQueryField#cFilterParameterElement">
@@ -998,7 +946,6 @@
 						this.valueLoaded = true;
 					}
 					this.validate();
-					//wCore.debug("cFilterParameterProperty.constructor");
 				} 
 				catch (e)
 				{
@@ -1057,8 +1004,7 @@
 					return field.getLabelByValue(field.value);
 				]]></body>
 			</method>
-		</implementation>
-		
+		</implementation>		
 		<handlers>
 			<handler event="fieldChanged" phase="capturing"><![CDATA[
 				if (this.valueLoaded == true)
@@ -1080,7 +1026,6 @@
 						this.valueLoaded = true;
 					}
 					this.validate();
-					//wCore.debug("cFilterParameterRestriction.constructor");
 				} 
 				catch (e)
 				{
@@ -1140,8 +1085,7 @@
 					return field.getLabelByValue(field.value);
 				]]></body>
 			</method>
-		</implementation>
-		
+		</implementation>		
 		<handlers>
 			<handler event="fieldChanged" phase="capturing"><![CDATA[
 				if (this.valueLoaded == true)
@@ -1159,7 +1103,6 @@
 			<constructor><![CDATA[
 				this.elementType = 'value';
 				this.validate();
-				//wCore.debug("cFilterParameterValue.constructor");
 			]]></constructor>
 			
 			<method name="doLoadField">
@@ -1264,10 +1207,13 @@
 								{
 									labels.push(field.getLabelByValue(ids[i]));
 								}
-								return labels.join(', ');							
+								return labels.join(', ');
+								break;
+													
 							case 'Boolean' :
 								return (field.value == 'true') ? "&amp;modules.uixul.bo.general.yes;" : "&amp;modules.uixul.bo.general.no;";
 								break;
+								
 							case 'Integer' :
 							case 'Double' :
 							case 'String' :
