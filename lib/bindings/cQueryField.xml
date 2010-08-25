@@ -368,10 +368,8 @@
 				this.operator = ((this.operator == "and") ? "or" : "and");
 				this.valueChanged();
 				]]></body>
-			</method>
-			
-		</implementation>
-		
+			</method>			
+		</implementation>		
 		<handlers>
 			<handler event="focus" phase="capturing"><![CDATA[
 				if (this.hasAttribute("focused")) { return; }
@@ -861,7 +859,12 @@
 				<body><![CDATA[
 					if (this.fieldLoaded && this.getElementByAnonId('field').value)
 					{
-						this.getElementByAnonId('text').value = this.getValueLabel();
+						var value = this.getValueLabel();
+						if (value.length > 60)
+						{
+							value = value.substring(0, 57) + '...';
+						}
+						this.getElementByAnonId('text').value = value;
 					}
 					else
 					{

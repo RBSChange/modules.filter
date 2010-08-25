@@ -5,11 +5,13 @@ cFilterParameterValue,cFilterParameterRestriction,cFilterParameterProperty{
 	display: inline-block;
 }
 
-cfield[fieldtype="query"] label.text-link {
+label.text-link{
 	color: #283!important;
 	font-weight: bold;
 }
 
-cFilterParameterValue[invalid="true"] [anonid="text"],cFilterParameterRestriction[invalid="true"] [anonid="text"],cFilterParameterProperty[invalid="true"] [anonid="text"]{
+cFilterParameterValue[invalid="true"] [anonid="text"],
+cFilterParameterRestriction[invalid="true"] [anonid="text"],
+cFilterParameterProperty[invalid="true"] [anonid="text"]{
 	color: #f00;
 }
