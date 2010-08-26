@@ -27,11 +27,14 @@ class filter_GetDocumentFiltersByModelAction extends f_action_BaseJSONAction
 		}
 		
 		$result = array();
+		$labels = array();
 		foreach ($filters as $filter)
 		{
-			$result[] = array('class' => $filter, 'label' => f_util_ClassUtils::newInstance($filter)->getLabel());
+			$label = f_util_ClassUtils::newInstance($filter)->getLabel();
+			$result[] = array('class' => $filter, 'label' => $label);
+			$labels[] = $label;
 		}
-		asort($result, SORT_STRING);			
+		array_multisort($result, $labels);
 		$subTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Query-on-'. $documentName.'Label;');
 		$orSubTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Or-query-on-'. $documentName.'Label;');
 		return $this->sendJSON(array('subTitle' => $subTitle, 'orSubTitle' => $orSubTitle, 'filters' => $result));
