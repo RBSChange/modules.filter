@@ -107,4 +107,23 @@
 		<locale lang="fr">cette année</locale>
 		<locale lang="en">this year</locale>
 	</entity>
+	
+	<!-- One/all/none -->
+	<entity id="oneallnone-label">
+		<locale lang="fr">tous / au moin un / aucun</locale>
+		<locale lang="en">all / one / none</locale>
+	</entity>
+	
+	<entity id="oneallnone-all">
+		<locale lang="fr">tous</locale>
+		<locale lang="en">all</locale>
+	</entity>
+	<entity id="oneallnone-one">
+		<locale lang="fr">au moins un</locale>
+		<locale lang="en">at least one</locale>
+	</entity>
+	<entity id="oneallnone-none">
+		<locale lang="fr">aucun</locale>
+		<locale lang="en">none</locale>
+	</entity>
 </localization>
