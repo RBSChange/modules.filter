@@ -1153,9 +1153,13 @@
 								break;
 							
 							case 'Document' :
-								field.setAttribute('fieldtype', 'documentarray');
-								field.setAttribute('allow', propertyInfo['allow']);
-								field.setAttribute('moduleselector', propertyInfo['moduleselector']);
+								field.setAttribute('fieldtype', 'documentarray');						
+								field.setAttribute('allow', propertyInfo.allow);
+								field.setAttribute('moduleselector', propertyInfo.moduleselector);
+								if ('dialog' in  propertyInfo)
+								{
+									field.setAttribute('dialog', propertyInfo.dialog);
+								}
 								break;
 						}
 					}

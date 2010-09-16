@@ -34,15 +34,28 @@ class filter_GetPropertyInfoForFilterAction extends f_action_BaseJSONAction
 			$result['propertyInfo']['type'] = $propertyInfo->getType();
 			if ($propertyInfo->getType() === BeanPropertyType::DOCUMENT)
 			{
-				$docTypes = array($propertyInfo->getDocumentType());
+				$pn = $propertyName === null ? $parameterName: $propertyName;
+				$dialog = $parameter->getCustomPropertyAttribute($parameterName, 'dialog');
+				if ($dialog) {$result['propertyInfo']['dialog'] = $dialog;}
+				
 				$model = f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName($propertyInfo->getDocumentType());
-				$result['propertyInfo']['moduleselector'] = $model->getModuleName();
-				$chidrenNames = $model->getChildrenNames();
-				if (is_array($chidrenNames))
+				$moduleselector = $parameter->getCustomPropertyAttribute($parameterName, 'moduleselector');
+				$result['propertyInfo']['moduleselector'] = ($moduleselector) ? $moduleselector : $model->getModuleName();
+				$allow = $parameter->getCustomPropertyAttribute($parameterName, 'allow');
+				if ($allow)
 				{
-					$docTypes = array_merge($docTypes, $chidrenNames);
+					$result['propertyInfo']['allow'] = $allow;
 				}
-				$result['propertyInfo']['allow'] = str_replace('/', '_', implode(',', $docTypes));
+				else
+				{
+					$docTypes = array($propertyInfo->getDocumentType());
+					$chidrenNames = $model->getChildrenNames();
+					if (is_array($chidrenNames))
+					{
+						$docTypes = array_merge($docTypes, $chidrenNames);
+					}
+					$result['propertyInfo']['allow'] = str_replace('/', '_', implode(',', $docTypes));
+				}
 			}
 			
 			$result['propertyInfo']['hasList'] = false;
