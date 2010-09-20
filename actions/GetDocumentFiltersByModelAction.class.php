@@ -34,7 +34,7 @@ class filter_GetDocumentFiltersByModelAction extends f_action_BaseJSONAction
 			$result[] = array('class' => $filter, 'label' => $label);
 			$labels[] = $label;
 		}
-		array_multisort($result, $labels);
+		array_multisort($labels, $result);
 		$subTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Query-on-'. $documentName.'Label;');
 		$orSubTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Or-query-on-'. $documentName.'Label;');
 		return $this->sendJSON(array('subTitle' => $subTitle, 'orSubTitle' => $orSubTitle, 'filters' => $result));
