@@ -34,7 +34,7 @@ class filter_GetPropertyInfoForFilterAction extends f_action_BaseJSONAction
 			$result['propertyInfo']['type'] = $propertyInfo->getType();
 			if ($propertyInfo->getType() === BeanPropertyType::DOCUMENT)
 			{
-				$pn = $propertyName === null ? $parameterName: $propertyName;
+				$propertyName === null ? $parameterName : $propertyName;
 				$dialog = $parameter->getCustomPropertyAttribute($parameterName, 'dialog');
 				if ($dialog) {$result['propertyInfo']['dialog'] = $dialog;}
 				

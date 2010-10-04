@@ -36,7 +36,23 @@
 		<locale lang="fr">liste des unités de dates</locale>
 		<locale lang="en">list of date units</locale>
 	</entity>
+	<entity id="date-units-extended-label">
+		<locale lang="fr">unités de dates étendues</locale>
+		<locale lang="en">extended date units</locale>
+	</entity>
+	<entity id="date-units-extended-description">
+		<locale lang="fr">liste des unités de dates incluant les heures et les minutes</locale>
+		<locale lang="en">list of date units including hours and minutes</locale>
+	</entity>
 	
+	<entity id="date-unit-minute">
+		<locale lang="fr">minute(s)</locale>
+		<locale lang="en">minute(s)</locale>
+	</entity>
+	<entity id="date-unit-hour">
+		<locale lang="fr">heure(s)</locale>
+		<locale lang="en">hour(s)</locale>
+	</entity>
 	<entity id="date-unit-day">
 		<locale lang="fr">jour(s)</locale>
 		<locale lang="en">day(s)</locale>
@@ -125,5 +141,19 @@
 	<entity id="oneallnone-none">
 		<locale lang="fr">aucun</locale>
 		<locale lang="en">none</locale>
+	</entity>
+	
+	<!-- More/less -->
+	<entity id="more-less-label">
+		<locale lang="fr">plus ou moins</locale>
+		<locale lang="en">more or less</locale>
+	</entity>
+	<entity id="more">
+		<locale lang="fr">plus</locale>
+		<locale lang="en">more</locale>
+	</entity>
+	<entity id="less">
+		<locale lang="fr">moins</locale>
+		<locale lang="en">less</locale>
 	</entity>
 </localization>

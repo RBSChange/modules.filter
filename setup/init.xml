@@ -19,6 +19,16 @@
 			<staticitem value="year" label="&amp;modules.filter.list.date-unit-year;" />
 		</staticlist>
 
+		<staticlist listid="modules_filter/dateunitsextended" label="&amp;modules.filter.list.Date-units-extended-label;"
+			description="&amp;modules.filter.list.date-units-extended-description;">
+			<staticitem value="minute" label="&amp;modules.filter.list.date-unit-minute;" />
+			<staticitem value="hour" label="&amp;modules.filter.list.date-unit-hour;" />
+			<staticitem value="day" label="&amp;modules.filter.list.date-unit-day;" />
+			<staticitem value="week" label="&amp;modules.filter.list.date-unit-week;" />
+			<staticitem value="month" label="&amp;modules.filter.list.date-unit-month;" />
+			<staticitem value="year" label="&amp;modules.filter.list.date-unit-year;" />
+		</staticlist>
+
 		<staticlist listid="modules_filter/datedirections" label="&amp;modules.filter.list.Date-directions-label;"
 			description="&amp;modules.filter.list.date-directions-description;">
 			<staticitem value="last" label="&amp;modules.filter.list.date-direction-last;" />
@@ -36,9 +46,14 @@
 		</staticlist>
 
 		<staticlist listid="modules_filter/oneallnone" label="&amp;modules.filter.list.Oneallnone-label;">
-			<staticitem label="&amp;modules.filter.list.Oneallnone-one;" value="ONE" />
-			<staticitem label="&amp;modules.filter.list.Oneallnone-all;" value="ALL" />
-			<staticitem label="&amp;modules.filter.list.Oneallnone-none;" value="NONE" />
+			<staticitem value="ONE" label="&amp;modules.filter.list.Oneallnone-one;" />
+			<staticitem value="ALL" label="&amp;modules.filter.list.Oneallnone-all;" />
+			<staticitem value="NONE" label="&amp;modules.filter.list.Oneallnone-none;" />
+		</staticlist>
+		
+		<staticlist listid="modules_filter/moreless" label="&amp;modules.filter.list.More-less-label;">			
+			<staticitem value="more" label="&amp;modules.filter.list.more;" />
+			<staticitem value="less" label="&amp;modules.filter.list.less;" />
 		</staticlist>
 	</systemfolder>
 </script>

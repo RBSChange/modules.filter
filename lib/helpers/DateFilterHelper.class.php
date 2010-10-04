@@ -29,6 +29,14 @@ class filter_DateFilterHelper
 			case 'day' :
 				$calendar->sub(date_Calendar::DAY, $count);
 				break;
+				
+			case 'hour' :
+				$calendar->sub(date_Calendar::HOUR, $count);
+				break;
+				
+			case 'minute' :
+				$calendar->sub(date_Calendar::MINUTE, $count);
+				break;
 		}
 		return $calendar->toString();
 	}
