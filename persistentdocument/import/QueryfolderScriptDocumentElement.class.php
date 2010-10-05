@@ -20,4 +20,18 @@ class filter_QueryfolderScriptDocumentElement extends import_ScriptDocumentEleme
 	{
 		return f_persistentdocument_PersistentDocumentModel::getInstanceFromDocumentModelName('modules_filter/queryfolder');
 	}
+
+	/**
+	 * @return array
+	 */
+	protected function getDocumentProperties()
+	{
+		$properties = parent::getDocumentProperties();
+		if (isset($properties['query']))
+		{
+			$query = $this->replaceRefIdInString($properties['query']) ;
+			$properties['query'] = $query;
+		}
+		return $properties;
+	}
 }
