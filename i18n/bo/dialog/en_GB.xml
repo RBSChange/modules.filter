@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.filter.bo.dialog" lcid="en_GB">
+  <key id="base-title">query edition</key>
+  <key id="remove-filter">remove</key>
+  <key id="add-filter">add filter</key>
+  <key id="add-filter-section">add filter section</key>
+  <key id="validate-value">validate value</key>
+  <key id="undo-value">back to last value</key>
+  <key id="oneof-subfilters">one of the following filters</key>
+  <key id="all-subfilters">all the following filters</key>
+</i18n>

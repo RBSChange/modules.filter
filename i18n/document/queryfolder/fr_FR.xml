@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.filter.document.queryfolder" lcid="fr_FR">
+  <include id="m.generic.document.folder"/>
+  <key id="document-name">queryfolder</key>
+  <key id="formodelname">[TO TRANSLATE] formodelname</key>
+  <key id="formodelname-help">[TO TRANSLATE] formodelname-help</key>
+  <key id="query">[TO TRANSLATE] query</key>
+  <key id="query-help">[TO TRANSLATE] query-help</key>
+</i18n>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.filter.bo.restrictions" lcid="fr_FR">
+  <key id="gt-text">supérieur(e) à</key>
+  <key id="ge-text">supérieur(e) ou égal(e) à</key>
+  <key id="lt-text">inférieur(e) à</key>
+  <key id="le-text">inférieur(e) ou égal(e) à</key>
+  <key id="ne-text">différent(e) de</key>
+  <key id="eq-text">égal(e) à</key>
+  <key id="ieq-text">égal(e) à (insensible à la casse)</key>
+  <key id="like-text">contient</key>
+  <key id="ilike-text">contient (insensible à la casse)</key>
+  <key id="notlike-text">ne contient pas</key>
+  <key id="in-text">compris(e) dans</key>
+  <key id="notin-text">non compris(e) dans</key>
+  <key id="beginswith-text">commence par</key>
+  <key id="ibeginswith-text">commence par (insensible à la casse)</key>
+  <key id="endswith-text">termine par</key>
+  <key id="iendswith-text">termine par (insensible à la casse)</key>
+</i18n>

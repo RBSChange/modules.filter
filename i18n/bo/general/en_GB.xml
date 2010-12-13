@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<i18n baseKey="m.filter.bo.general" lcid="en_GB">
+  <key id="module-name">filter</key>
+  <key id="tree-root-name">filter</key>
+  <key id="system-folder-name">filter</key>
+  <key id="date-format">F d Y</key>
+  <key id="error-must-set-all-parameters">you must fill all parameters.</key>
+  <key id="select">-- select --</key>
+</i18n>
