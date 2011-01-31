@@ -24,13 +24,13 @@
 					{
 						subTitle.removeAttribute("hidden");
 						orSubTitle.setAttribute("hidden", "true");
-						subSectionTitle = '&modules.filter.bo.dialog.oneof-subfiltersLabel;';
+						subSectionTitle = '${transui:m.filter.bo.dialog.oneof-subfilters,lab}';
 					}
 					else
 					{
 						subTitle.setAttribute("hidden", "true");
 						orSubTitle.removeAttribute("hidden");
-						subSectionTitle = '&modules.filter.bo.dialog.all-subfiltersLabel;';
+						subSectionTitle = '${transui:m.filter.bo.dialog.all-subfilters,lab}';
 					}
 					
 					var sections = this.getElementByAnonId('filters-box').getElementsByTagName('cFilterSection');
@@ -79,7 +79,7 @@
 						var menupopup = window.document.createElement('menupopup');
 						
 						var menuitem = window.document.createElement('menuitem');			
-					 	menuitem.setAttribute('label', '&modules.filter.bo.general.select;');
+					 	menuitem.setAttribute('label', '${transui:m.filter.bo.general.select}');
 					 	menuitem.setAttribute('value', '');
 					 	menupopup.appendChild(menuitem);
 					 	
@@ -95,7 +95,7 @@
 					}
 				 	else
 				 	{
-				 		this.getElementByAnonId('sub-title').setAttribute('value', '&modules.filter.bo.general.Filters-load-error;');
+				 		this.getElementByAnonId('sub-title').setAttribute('value', '${transui:m.filter.bo.general.filters-load-error,ucf}');
 				 	}
 				 	this.setInitialValue(this.initialvalue);
 				} 
@@ -174,11 +174,11 @@
 					var section = document.createElement('cFilterSection');
 					if (this.operator == "and")
 					{
-						var subSectionTitle = '&modules.filter.bo.dialog.oneof-subfiltersLabel;';
+						var subSectionTitle = '${transui:m.filter.bo.dialog.oneof-subfilters,lab}';
 					}
 					else
 					{
-						var subSectionTitle = '&modules.filter.bo.dialog.all-subfiltersLabel;';
+						var subSectionTitle = '${transui:m.filter.bo.dialog.all-subfilters,lab}';
 					}
 					section.setAttribute("title", subSectionTitle);
 					this.appendFilterSection(section);
@@ -356,7 +356,7 @@
 						var node = nodes[i];
 						if (!node.isValid())
 						{
-							return "&modules.filter.bo.general.Error-must-set-all-parameters;";
+							return "${transui:m.filter.bo.general.error-must-set-all-parameters,ucf}";
 						}
 					}
 					return null;
@@ -1204,7 +1204,7 @@
 						switch (this.propertyInfo['type'])
 						{
 							case 'DateTime' :
-								return field.formatDate(field.buildDate(field.value), "&modules.filter.bo.general.date-format;");
+								return field.formatDate(field.buildDate(field.value), "${transui:m.filter.bo.general.date-format}");
 								break;
 								
 							case 'Document' :
@@ -1218,7 +1218,7 @@
 								break;
 													
 							case 'Boolean' :
-								return (field.value == 'true') ? "&amp;modules.uixul.bo.general.yes;" : "&amp;modules.uixul.bo.general.no;";
+								return (field.value == 'true') ? "${transui:m.uixul.bo.general.yes}" : "${transui:m.uixul.bo.general.no}";
 								break;
 								
 							case 'Integer' :

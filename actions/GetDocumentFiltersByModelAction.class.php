@@ -35,8 +35,9 @@ class filter_GetDocumentFiltersByModelAction extends f_action_BaseJSONAction
 			$labels[] = $label;
 		}
 		array_multisort($labels, $result);
-		$subTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Query-on-'. $documentName.'Label;');
-		$orSubTitle = f_Locale::translateUI('&modules.'. $moduleName .'.bo.documentfilters.Or-query-on-'. $documentName.'Label;');
+		$ls = LocaleService::getInstance();
+		$subTitle = $ls->transBO('m.' . $moduleName . '.bo.documentfilters.query-on-' . $documentName, array('ucf', 'lab'));
+		$orSubTitle = $ls->transBO('m.' . $moduleName . '.bo.documentfilters.or-query-on-' . $documentName, array('ucf', 'lab'));
 		return $this->sendJSON(array('subTitle' => $subTitle, 'orSubTitle' => $orSubTitle, 'filters' => $result));
 	}
 }
