@@ -53,7 +53,7 @@ class commands_filter_AddFilter extends commands_AbstractChangeCommand
 		$moduleName = strtolower($params[0]);
 		$filterName = ucfirst($params[1]);
 		$modelName = $params[2];
-		$paramNames = ($params[3]) ? explode(',', $params[3]) : array();
+		$paramNames = isset($params[3]) ? explode(',', $params[3]) : array();
 		if (!ModuleService::getInstance()->moduleExists($moduleName))
 		{
 			return $this->quitError("Component $moduleName does not exits");
