@@ -786,6 +786,12 @@
 					{
 						this.loadField();
 					}
+					// inform parent for invalidity
+					this.validate();
+					var evt = document.createEvent('Event');
+					evt.initEvent('parameterChanged', true, true);
+					this.dispatchEvent(evt);
+						
 					this.getElementByAnonId('text-zone').setAttribute('style', 'display: none');
 					this.getElementByAnonId('field-zone').removeAttribute('style');					
 				]]></body>
@@ -800,18 +806,19 @@
 					{
 						this.updateText();
 						this.setValueInParameter();
-						this.validate();
-												
-						// Dispatch a "parameterChanged" event.
-						var evt = document.createEvent('Event');
-						evt.initEvent('parameterChanged', true, true);
-						this.dispatchEvent(evt);
 					}
 					else
 					{
 						this.getElementByAnonId('field').value = this.getValueFromParameter();
 						this.updateText();
 					}
+					
+					this.validate();
+					// Dispatch a "parameterChanged" event.
+					var evt = document.createEvent('Event');
+					evt.initEvent('parameterChanged', true, true);
+					this.dispatchEvent(evt);
+					
 					this.getElementByAnonId('text-zone').removeAttribute('style');
 					this.getElementByAnonId('field-zone').setAttribute('style', 'display: none');
 				]]></body>
@@ -906,7 +913,7 @@
 			<method name="isValid">
 				<body><![CDATA[
 					var value = this.getValueFromParameter();
-					return ((value !== null) && (value !== ''));
+					return !this.editMode && value !== null && value !== '';
 				]]></body>
 			</method>
 		</implementation>		
