@@ -3,7 +3,7 @@
  * commands_filter_AddFilter
  * @package modules.filter.command
  */
-class commands_filter_AddFilter extends commands_AbstractChangeCommand
+class commands_filter_AddFilter extends c_ChangescriptCommand
 {
 	/**
 	 * @return String
