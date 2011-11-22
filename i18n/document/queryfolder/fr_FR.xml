@@ -2,8 +2,6 @@
 <i18n baseKey="m.filter.document.queryfolder" lcid="fr_FR">
 	<include id="m.generic.document.folder" />
 	<key id="document-name">dossier intelligent</key>
-	<key id="formodelname">[TO TRANSLATE] formodelname</key>
-	<key id="formodelname-help">[TO TRANSLATE] formodelname-help</key>
 	<key id="query">requête</key>
 	<key id="query-help">Requête permettant de retrouver les documents contenus dans ce dossier.</key>
 </i18n>
