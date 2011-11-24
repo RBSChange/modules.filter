@@ -7,9 +7,9 @@
   <key id="ne-text">different from</key>
   <key id="eq-text">equal to</key>
   <key id="ieq-text">equal to (case-insensitive)</key>
-  <key id="like-text">containing</key>
-  <key id="ilike-text">containing (case-insensitive)</key>
-  <key id="notlike-text">not containing</key>
+  <key id="like-text">contains</key>
+  <key id="ilike-text">contains (case-insensitive)</key>
+  <key id="notlike-text">does not contain</key>
   <key id="in-text">in</key>
   <key id="notin-text">not in</key>
   <key id="beginswith-text">begins with</key>

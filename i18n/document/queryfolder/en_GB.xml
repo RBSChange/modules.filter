@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <i18n baseKey="m.filter.document.queryfolder" lcid="en_GB">
   <include id="m.generic.document.folder"/>
-  <key id="document-name">queryfolder</key>
-  <key id="formodelname">[TO TRANSLATE] formodelname</key>
-  <key id="formodelname-help">[TO TRANSLATE] formodelname-help</key>
-  <key id="query">[TO TRANSLATE] query</key>
-  <key id="query-help">[TO TRANSLATE] query-help</key>
+  <key id="document-name">smart query folder</key>
+  <key id="query">query</key>
+  <key id="query-help">Query allowing to find the documents contained in this folder.</key>
 </i18n>
