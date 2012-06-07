@@ -7,7 +7,6 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 {
 	/**
 	 * @return String
-	 * @example "<moduleName> <name>"
 	 */
 	function getUsage()
 	{
@@ -16,7 +15,6 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 
 	/**
 	 * @return String
-	 * @example "initialize a document"
 	 */
 	function getDescription()
 	{
@@ -31,13 +29,6 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 	{
 		return count($params) == 3 || count($params) == 4;
 	}
-
-	/**
-	 * @return String[]
-	 */
-//	function getOptions()
-//	{
-//	}
 
 	/**
 	 * @param String[] $params
