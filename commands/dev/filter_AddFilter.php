@@ -75,7 +75,7 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 		f_util_FileUtils::mkdir($filterFolder);
 		f_util_FileUtils::write($filterFile, $result);
 
-		AutoloadBuilder::getInstance()->appendFile($filterFile);
+		change_AutoloadBuilder::getInstance()->appendFile($filterFile);
 		$this->message('Filter class path: ' . $filterFile);
 		
 		// Add locale.
