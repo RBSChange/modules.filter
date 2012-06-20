@@ -39,11 +39,3 @@ class filter_StaticQuery
 		return $this->ids;
 	}
 }
-
-/**
- * @deprecated (will be removed in 4.0) use filter_StaticQuery
- */
-class featurepacka_IdsContainer extends filter_StaticQuery
-{
-	
-}

@@ -36,8 +36,8 @@ class filter_GetDocumentFiltersByModelAction extends change_JSONAction
 		}
 		array_multisort($labels, $result);
 		$ls = LocaleService::getInstance();
-		$subTitle = $ls->transBO('m.' . $moduleName . '.bo.documentfilters.query-on-' . $documentName, array('ucf', 'lab'));
-		$orSubTitle = $ls->transBO('m.' . $moduleName . '.bo.documentfilters.or-query-on-' . $documentName, array('ucf', 'lab'));
+		$subTitle = $ls->trans('m.' . $moduleName . '.bo.documentfilters.query-on-' . $documentName, array('ucf', 'lab'));
+		$orSubTitle = $ls->trans('m.' . $moduleName . '.bo.documentfilters.or-query-on-' . $documentName, array('ucf', 'lab'));
 		return $this->sendJSON(array('subTitle' => $subTitle, 'orSubTitle' => $orSubTitle, 'filters' => $result));
 	}
 }

@@ -5,9 +5,9 @@
 class filter_DateFilterHelper
 {
 	/**
-	 * @param String $unit from list modules_filter/dateunits
-	 * @param Integer $count
-	 * @return String
+	 * @param string $unit from list modules_filter/dateunits
+	 * @param integer $count
+	 * @return string
 	 */
 	public static function getReferenceDate($unit, $count)
 	{
@@ -42,8 +42,8 @@ class filter_DateFilterHelper
 	}
 	
 	/**
-	 * @param String $period from list modules_filter/dateperiods
-	 * @return String[] array($dateMin, $dateMax)
+	 * @param string $period from list modules_filter/dateperiods
+	 * @return string[] array($dateMin, $dateMax)
 	 */
 	public static function getDatesForPeriod($period)
 	{
@@ -91,7 +91,7 @@ class filter_DateFilterHelper
 	
 	/**
 	 * @param date_Calendar $calendar
-	 * @return String
+	 * @return string
 	 */
 	private static function getStartDate($calendar)
 	{
@@ -100,7 +100,7 @@ class filter_DateFilterHelper
 	
 	/**
 	 * @param date_Calendar $calendar
-	 * @return String
+	 * @return string
 	 */
 	private static function getEndDate($calendar)
 	{

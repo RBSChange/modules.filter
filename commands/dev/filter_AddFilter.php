@@ -6,7 +6,7 @@
 class commands_filter_AddFilter extends c_ChangescriptCommand
 {
 	/**
-	 * @return String
+	 * @return string
 	 */
 	function getUsage()
 	{
@@ -14,7 +14,7 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 	}
 
 	/**
-	 * @return String
+	 * @return string
 	 */
 	function getDescription()
 	{
@@ -22,7 +22,7 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 	}
 	
 	/**
-	 * @param String[] $params
+	 * @param string[] $params
 	 * @param array<String, String> $options where the option array key is the option name, the potential option value or true
 	 */
 	protected function validateArgs($params, $options)
@@ -31,7 +31,7 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 	}
 
 	/**
-	 * @param String[] $params
+	 * @param string[] $params
 	 * @param array<String, String> $options where the option array key is the option name, the potential option value or true
 	 * @see c_ChangescriptCommand::parseArgs($args)
 	 */

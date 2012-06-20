@@ -1,27 +1,10 @@
 <?php
 /**
- * filter_QueryfolderService
  * @package modules.filter
+ * @method filter_QueryfolderService getInstance()
  */
 class filter_QueryfolderService extends generic_FolderService
 {
-	/**
-	 * @var filter_QueryfolderService
-	 */
-	private static $instance;
-
-	/**
-	 * @return filter_QueryfolderService
-	 */
-	public static function getInstance()
-	{
-		if (self::$instance === null)
-		{
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
-
 	/**
 	 * @return filter_persistentdocument_queryfolder
 	 */
@@ -38,7 +21,7 @@ class filter_QueryfolderService extends generic_FolderService
 	 */
 	public function createQuery()
 	{
-		return $this->pp->createQuery('modules_filter/queryfolder');
+		return $this->getPersistentProvider()->createQuery('modules_filter/queryfolder');
 	}
 	
 	/**
@@ -49,7 +32,7 @@ class filter_QueryfolderService extends generic_FolderService
 	 */
 	public function createStrictQuery()
 	{
-		return $this->pp->createQuery('modules_filter/queryfolder', false);
+		return $this->getPersistentProvider()->createQuery('modules_filter/queryfolder', false);
 	}
 	
 	/**
