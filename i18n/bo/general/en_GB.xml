@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <i18n baseKey="m.filter.bo.general" lcid="en_GB">
-  <key id="module-name">Filters</key>
-  <key id="tree-root-name">Filters</key>
-  <key id="system-folder-name">Filters</key>
-  <key id="date-format">F d Y</key>
-  <key id="error-must-set-all-parameters">you must select a value for each parameter.</key>
-  <key id="select">-- select --</key>
-  <key id="filters-load-error">Could not load the list of filters</key>
+	<key id="module-name">Filters</key>
+	<key id="tree-root-name">Filters</key>
+	<key id="system-folder-name">Filters</key>
+	<key id="date-format">F d Y</key>
+	<key id="error-must-set-all-parameters">you must select a value for each parameter.</key>
+	<key id="select">-- select --</key>
+	<key id="filters-load-error">Could not load the list of filters</key>
 </i18n>

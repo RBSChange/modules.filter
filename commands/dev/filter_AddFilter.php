@@ -51,7 +51,7 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 		}
 		else
 		{
-			$filterFolder = f_util_FileUtils::buildWebeditPath('modules', $moduleName, 'persistentdocument', 'filters');
+			$filterFolder = f_util_FileUtils::buildProjectPath('modules', $moduleName, 'persistentdocument', 'filters');
 			$filterFile = $filterFolder . DIRECTORY_SEPARATOR . $filterName . 'Filter.php';
 			$class = $moduleName . '_' . $filterName . 'Filter';
 		}
@@ -62,7 +62,7 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 		}
 		
 		$generator = new builder_Generator();
-		$generator->setTemplateDir(f_util_FileUtils::buildWebeditPath('modules', 'filter', 'templates', 'builder'));
+		$generator->setTemplateDir(f_util_FileUtils::buildProjectPath('modules', 'filter', 'templates', 'builder'));
 		$generator->assign_by_ref('author', $this->getAuthor());
 		$generator->assign_by_ref('name', $filterName);
 		$generator->assign_by_ref('module', $moduleName);

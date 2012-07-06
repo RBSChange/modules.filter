@@ -24,13 +24,13 @@
 					{
 						subTitle.removeAttribute("hidden");
 						orSubTitle.setAttribute("hidden", "true");
-						subSectionTitle = '${transui:m.filter.bo.dialog.oneof-subfilters,lab}';
+						subSectionTitle = '${trans:m.filter.bo.dialog.oneof-subfilters,lab}';
 					}
 					else
 					{
 						subTitle.setAttribute("hidden", "true");
 						orSubTitle.removeAttribute("hidden");
-						subSectionTitle = '${transui:m.filter.bo.dialog.all-subfilters,lab}';
+						subSectionTitle = '${trans:m.filter.bo.dialog.all-subfilters,lab}';
 					}
 					
 					var sections = this.getElementByAnonId('filters-box').getElementsByTagName('cFilterSection');
@@ -64,7 +64,7 @@
 				wCore.executeJSON('filter', 'GetDocumentFiltersByModel', {allow: this.getAttribute('allow'), fieldtype: this.getAttribute('fieldtype') }, callback, true);		
 			]]></constructor>
  
-      		<method name="onFilterLoaded">
+	  		<method name="onFilterLoaded">
 				<parameter name="result" />
 				<body><![CDATA[
 				try
@@ -79,7 +79,7 @@
 						var menupopup = window.document.createElement('menupopup');
 						
 						var menuitem = window.document.createElement('menuitem');			
-					 	menuitem.setAttribute('label', '${transui:m.filter.bo.general.select}');
+					 	menuitem.setAttribute('label', '${trans:m.filter.bo.general.select}');
 					 	menuitem.setAttribute('value', '');
 					 	menupopup.appendChild(menuitem);
 					 	
@@ -95,7 +95,7 @@
 					}
 				 	else
 				 	{
-				 		this.getElementByAnonId('sub-title').setAttribute('value', '${transui:m.filter.bo.general.filters-load-error,ucf}');
+				 		this.getElementByAnonId('sub-title').setAttribute('value', '${trans:m.filter.bo.general.filters-load-error,ucf}');
 				 	}
 				 	this.setInitialValue(this.initialvalue);
 				} 
@@ -111,8 +111,8 @@
 				return this.getElementByAnonId('default-menulist').childNodes.item(0).cloneNode(true);
 				]]></body>
 			</method>
-					     
-      		<method name="setInitialValue">
+						 
+	  		<method name="setInitialValue">
 				<parameter name="val" />
 				<body><![CDATA[
 					var fval = this.fixString(val);
@@ -174,11 +174,11 @@
 					var section = document.createElement('cFilterSection');
 					if (this.operator == "and")
 					{
-						var subSectionTitle = '${transui:m.filter.bo.dialog.oneof-subfilters,lab}';
+						var subSectionTitle = '${trans:m.filter.bo.dialog.oneof-subfilters,lab}';
 					}
 					else
 					{
-						var subSectionTitle = '${transui:m.filter.bo.dialog.all-subfilters,lab}';
+						var subSectionTitle = '${trans:m.filter.bo.dialog.all-subfilters,lab}';
 					}
 					section.setAttribute("title", subSectionTitle);
 					this.appendFilterSection(section);
@@ -300,7 +300,7 @@
 					var button = document.createElement('toolbarbutton');
 					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('height', '16');
-					button.setAttribute('label', "${trans:m.filter.bo.dialog.Remove-filter,ucf,js}");
+					button.setAttribute('label', "${trans:m.filter.bo.dialog.remove-filter,ucf,js}");
 					button.addEventListener('command', function () { _this.onRemove(this.parentNode); }, true);
 					newBox.appendChild(button);
 					
@@ -356,7 +356,7 @@
 						var node = nodes[i];
 						if (!node.isValid())
 						{
-							return "${transui:m.filter.bo.general.error-must-set-all-parameters,ucf}";
+							return "${trans:m.filter.bo.general.error-must-set-all-parameters,ucf}";
 						}
 					}
 					return null;
@@ -395,8 +395,8 @@
 					<xul:vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 15px" anonid="filters-box" />
 					<xul:vbox style="margin-left: 10px; border-left: 3px solid #aaa; padding: 5px; padding-left: 5px">
 						<xul:toolbar>
-							<xul:toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="${trans:m.filter.bo.dialog.Add-filter,ucf,attr}" />
-							<xul:toolbarbutton anonid="add-filters" image="{IconsBase}/small/add.png" oncommand="onAddFilterSection();" label="${trans:m.filter.bo.dialog.Add-filter-section,ucf,attr}" />
+							<xul:toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="${trans:m.filter.bo.dialog.add-filter,ucf,attr}" />
+							<xul:toolbarbutton anonid="add-filters" image="{IconsBase}/small/add.png" oncommand="onAddFilterSection();" label="${trans:m.filter.bo.dialog.add-filter-section,ucf,attr}" />
 							<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
 						</xul:toolbar>
 					</xul:vbox>
@@ -600,7 +600,7 @@
 					var button = document.createElement('toolbarbutton');
 					button.setAttribute('image', '{IconsBase}/small/delete.png');
 					button.setAttribute('height', '16');
-					button.setAttribute('label', "${trans:m.filter.bo.dialog.Remove-filter,ucf,js}");
+					button.setAttribute('label', "${trans:m.filter.bo.dialog.remove-filter,ucf,js}");
 					button.addEventListener('command', function () { _this.onRemove(this.parentNode); }, true);
 					newBox.appendChild(button);
 					
@@ -623,7 +623,7 @@
 					<xul:vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 5px 5px 0px 15px;" anonid="filters-box" />
 					<xul:vbox style="margin-left: 0px; border-left: 3px solid #aaa; padding: 0px 0px 0px 7px;">
 						<xul:toolbar>
-							<xul:toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="${trans:m.filter.bo.dialog.Add-filter,ucf,attr}" />
+							<xul:toolbarbutton anonid="add-filter" image="{IconsBase}/small/add.png" oncommand="onAdd();" label="${trans:m.filter.bo.dialog.add-filter,ucf,attr}" />
 							<xul:toolbarbutton image="chrome://global/skin/icons/question-16.png" xbl:inherits="hidden=hidehelp" oncommand="dispatchFieldEvent('fieldHelp');"/>
 						</xul:toolbar>
 					</xul:vbox>
@@ -938,8 +938,8 @@
 					<xul:label class="text-link inline" anonid="text"><xbl:children/></xul:label>
 				</xul:hbox>
 				<xul:hbox class="inline" anonid="field-zone" style="display: none">
-					<xul:toolbarbutton class="inline" anonid="validation-button" height="16" image="{IconsBase}/small/check.png" tooltiptext="${trans:m.filter.bo.dialog.Validate-value,ucf,attr}" oncommand="switchToText(true);" />
-					<xul:toolbarbutton class="inline" anonid="undo-button" height="16" image="{IconsBase}/small/undo.png" tooltiptext="${trans:m.filter.bo.dialog.Undo-value,ucf,attr}" oncommand="switchToText(false);" />
+					<xul:toolbarbutton class="inline" anonid="validation-button" height="16" image="{IconsBase}/small/check.png" tooltiptext="${trans:m.filter.bo.dialog.validate-value,ucf,attr}" oncommand="switchToText(true);" />
+					<xul:toolbarbutton class="inline" anonid="undo-button" height="16" image="{IconsBase}/small/undo.png" tooltiptext="${trans:m.filter.bo.dialog.undo-value,ucf,attr}" oncommand="switchToText(false);" />
 				</xul:hbox>
 			</xul:hbox>
 		</content>
@@ -1211,7 +1211,7 @@
 						switch (this.propertyInfo['type'])
 						{
 							case 'DateTime' :
-								return field.formatDate(field.buildDate(field.value), "${transui:m.filter.bo.general.date-format}");
+								return field.formatDate(field.buildDate(field.value), "${trans:m.filter.bo.general.date-format}");
 								break;
 								
 							case 'Document' :
@@ -1225,7 +1225,7 @@
 								break;
 													
 							case 'Boolean' :
-								return (field.value == 'true') ? "${transui:m.uixul.bo.general.yes}" : "${transui:m.uixul.bo.general.no}";
+								return (field.value == 'true') ? "${trans:m.uixul.bo.general.yes}" : "${trans:m.uixul.bo.general.no}";
 								break;
 								
 							case 'Integer' :

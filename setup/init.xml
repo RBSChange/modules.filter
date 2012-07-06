@@ -1,59 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <script>
 	<binding fileName="modules/list/persistentdocument/import/list_binding.xml" />
-
 	<systemfolder module="list" relatedmodule="filter">
-		<staticlist listid="modules_filter/matchmodes" label="&amp;modules.filter.list.Match-modes-label;"
-			 description="&amp;modules.filter.list.match-modes-description;">
-			<staticitem value="start" label="&amp;modules.filter.list.match-mode-start;" />
-			<staticitem value="end" label="&amp;modules.filter.list.match-mode-end;" />
-			<staticitem value="anywhere" label="&amp;modules.filter.list.match-mode-anywhere;" />
-			<staticitem value="exact" label="&amp;modules.filter.list.match-mode-exact;" />
+		<staticlist listid="modules_filter/matchmodes" label="m.filter.list.match-modes-" description="m.filter.list.match-modes-description">
+			<staticitem value="start" label="m.filter.list.match-mode-start" />
+			<staticitem value="end" label="m.filter.list.match-mode-end" />
+			<staticitem value="anywhere" label="m.filter.list.match-mode-anywhere" />
+			<staticitem value="exact" label="m.filter.list.match-mode-exact" />
 		</staticlist>
-
-		<staticlist listid="modules_filter/dateunits" label="&amp;modules.filter.list.Date-units-label;"
-			description="&amp;modules.filter.list.date-units-description;">
-			<staticitem value="day" label="&amp;modules.filter.list.date-unit-day;" />
-			<staticitem value="week" label="&amp;modules.filter.list.date-unit-week;" />
-			<staticitem value="month" label="&amp;modules.filter.list.date-unit-month;" />
-			<staticitem value="year" label="&amp;modules.filter.list.date-unit-year;" />
+		<staticlist listid="modules_filter/dateunits" label="m.filter.list.date-units-" description="m.filter.list.date-units-description">
+			<staticitem value="day" label="m.filter.list.date-unit-day" />
+			<staticitem value="week" label="m.filter.list.date-unit-week" />
+			<staticitem value="month" label="m.filter.list.date-unit-month" />
+			<staticitem value="year" label="m.filter.list.date-unit-year" />
 		</staticlist>
-
-		<staticlist listid="modules_filter/dateunitsextended" label="&amp;modules.filter.list.Date-units-extended-label;"
-			description="&amp;modules.filter.list.date-units-extended-description;">
-			<staticitem value="minute" label="&amp;modules.filter.list.date-unit-minute;" />
-			<staticitem value="hour" label="&amp;modules.filter.list.date-unit-hour;" />
-			<staticitem value="day" label="&amp;modules.filter.list.date-unit-day;" />
-			<staticitem value="week" label="&amp;modules.filter.list.date-unit-week;" />
-			<staticitem value="month" label="&amp;modules.filter.list.date-unit-month;" />
-			<staticitem value="year" label="&amp;modules.filter.list.date-unit-year;" />
+		<staticlist listid="modules_filter/dateunitsextended" label="m.filter.list.date-units-extended-" description="m.filter.list.date-units-extended-description">
+			<staticitem value="minute" label="m.filter.list.date-unit-minute" />
+			<staticitem value="hour" label="m.filter.list.date-unit-hour" />
+			<staticitem value="day" label="m.filter.list.date-unit-day" />
+			<staticitem value="week" label="m.filter.list.date-unit-week" />
+			<staticitem value="month" label="m.filter.list.date-unit-month" />
+			<staticitem value="year" label="m.filter.list.date-unit-year" />
 		</staticlist>
-
-		<staticlist listid="modules_filter/datedirections" label="&amp;modules.filter.list.Date-directions-label;"
-			description="&amp;modules.filter.list.date-directions-description;">
-			<staticitem value="last" label="&amp;modules.filter.list.date-direction-last;" />
-			<staticitem value="next" label="&amp;modules.filter.list.date-direction-next;" />
+		<staticlist listid="modules_filter/datedirections" label="m.filter.list.date-directions-" description="m.filter.list.date-directions-description">
+			<staticitem value="last" label="m.filter.list.date-direction-last" />
+			<staticitem value="next" label="m.filter.list.date-direction-next" />
 		</staticlist>
-
-		<staticlist listid="modules_filter/dateperiods" label="&amp;modules.filter.list.Date-periods-label;"
-			description="&amp;modules.filter.list.date-periods-description;">
-			<staticitem value="today" label="&amp;modules.filter.list.date-period-today;" />
-			<staticitem value="tomorrow" label="&amp;modules.filter.list.date-period-tomorrow;" />
-			<staticitem value="yesterday" label="&amp;modules.filter.list.date-period-yesterday;" />
-			<staticitem value="thisweek" label="&amp;modules.filter.list.date-period-this-week;" />
-			<staticitem value="thismonth" label="&amp;modules.filter.list.date-period-this-month;" />
-			<staticitem value="thisyear" label="&amp;modules.filter.list.date-period-this-year;" />
+		<staticlist listid="modules_filter/dateperiods" label="m.filter.list.date-periods-" description="m.filter.list.date-periods-description">
+			<staticitem value="today" label="m.filter.list.date-period-today" />
+			<staticitem value="tomorrow" label="m.filter.list.date-period-tomorrow" />
+			<staticitem value="yesterday" label="m.filter.list.date-period-yesterday" />
+			<staticitem value="thisweek" label="m.filter.list.date-period-this-week" />
+			<staticitem value="thismonth" label="m.filter.list.date-period-this-month" />
+			<staticitem value="thisyear" label="m.filter.list.date-period-this-year" />
 		</staticlist>
-
-		<staticlist listid="modules_filter/oneallnone" label="&amp;modules.filter.list.Oneallnone-label;">
-			<staticitem value="ONE" label="&amp;modules.filter.list.Oneallnone-one;" />
-			<staticitem value="ALL" label="&amp;modules.filter.list.Oneallnone-all;" />
-			<staticitem value="NONE" label="&amp;modules.filter.list.Oneallnone-none;" />
+		<staticlist listid="modules_filter/oneallnone" label="m.filter.list.oneallnone-">
+			<staticitem value="ONE" label="m.filter.list.oneallnone-one" />
+			<staticitem value="ALL" label="m.filter.list.oneallnone-all" />
+			<staticitem value="NONE" label="m.filter.list.oneallnone-none" />
 		</staticlist>
-		
-		<staticlist listid="modules_filter/moreless" label="&amp;modules.filter.list.More-less-label;">			
-			<staticitem value="more" label="&amp;modules.filter.list.more;" />
-			<staticitem value="less" label="&amp;modules.filter.list.less;" />
+		<staticlist listid="modules_filter/moreless" label="m.filter.list.more-less-">
+			<staticitem value="more" label="m.filter.list.more" />
+			<staticitem value="less" label="m.filter.list.less" />
 		</staticlist>
 	</systemfolder>
 </script>

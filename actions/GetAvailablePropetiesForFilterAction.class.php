@@ -25,7 +25,7 @@ class filter_GetAvailablePropetiesForFilterAction extends change_JSONAction
 			$propertyInfos = $parameter->getAllowedPropertyInfos();
 			foreach ($propertyInfos as $name => $propertyInfo)
 			{
-				$result['availableProperties'][$name] = f_Locale::translateUI($propertyInfo->getLabelKey());
+				$result['availableProperties'][$name] = LocaleService::getInstance()->trans($propertyInfo->getLabelKey());
 			}
 		}
 		
