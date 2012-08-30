@@ -5,5 +5,4 @@
  */
 class filter_ModuleService extends ModuleBaseService
 {
-
 }
