@@ -63,13 +63,13 @@ class commands_filter_AddFilter extends c_ChangescriptCommand
 		
 		$generator = new builder_Generator();
 		$generator->setTemplateDir(f_util_FileUtils::buildProjectPath('modules', 'filter', 'templates', 'builder'));
-		$generator->assign_by_ref('author', $this->getAuthor());
-		$generator->assign_by_ref('name', $filterName);
-		$generator->assign_by_ref('module', $moduleName);
-		$generator->assign_by_ref('date', date('r'));
-		$generator->assign_by_ref('class', $class);
-		$generator->assign_by_ref('modelName', $modelName);
-		$generator->assign_by_ref('parameters', $paramNames);
+		$generator->assign('author', $this->getAuthor());
+		$generator->assign('name', $filterName);
+		$generator->assign('module', $moduleName);
+		$generator->assign('date', date('r'));
+		$generator->assign('class', $class);
+		$generator->assign('modelName', $modelName);
+		$generator->assign('parameters', $paramNames);
 		$result = $generator->fetch('filter.tpl');
 		
 		f_util_FileUtils::mkdir($filterFolder);
